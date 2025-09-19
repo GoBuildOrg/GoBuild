@@ -139,15 +139,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // const signOut = async () => {
+  //   try {
+  //     await supabase.auth.signOut();
+  //     navigate('/');
+  //   } catch (error: any) {
+  //     toast({
+  //       title: "Error signing out",
+  //       description: error.message,
+  //       variant: "destructive"
+  //     });
+  //   }
+  // };
+
   const signOut = async () => {
+
     try {
-      await supabase.auth.signOut();
-      navigate('/');
-    } catch (error: any) {
+      // await supabase.auth.signOut();
+      localStorage.removeItem("sb-yhcyqwfmthgrqskjiida-auth-token");
+      setUser(null);
+      setSession(null);
+      setUserRole(null);
+      toast({
+        title: "Signed out",
+        description: "You have been signed out successfully.",
+      });
+      navigate('/'); 
+    } catch (err: any) {
       toast({
         title: "Error signing out",
-        description: error.message,
-        variant: "destructive"
+        description: err.message,
+        variant: "destructive",
       });
     }
   };
