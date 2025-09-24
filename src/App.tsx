@@ -20,6 +20,7 @@ import ForgotPassword from "./pages/auth/Forgot";
 
 // Import i18n configuration
 import './i18n';
+import ResetPassword from "./pages/auth/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,8 @@ const AppRoutes = () => {
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="Forgot" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="forgot" element={<ForgotPassword />} />
         
       </Route>
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
