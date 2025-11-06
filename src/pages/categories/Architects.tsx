@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, CheckCircle2, Smile } from "lucide-react";
-import BmodelArchitect from "@/components/BmodelArchitect";
+import { HeroArchitectForm } from "@/components/HeroArchitectForm";
 import ImageSlider from "@/components/ImageSlider";
 
 const ArchitectsPage = () => {
@@ -397,8 +397,11 @@ const ArchitectsPage = () => {
           )}
         </section>
       )}
-      <BmodelArchitect />
-      {/*  Heading Added Below Cards Section */}
+
+      {/* Hero form for achitects */}
+      <HeroArchitectForm/>
+
+      {/* ✅ Heading Added Below Cards Section */}
       <section className="max-w-6xl mx-auto px-4 md:px-0 mt-16 mb-8 text-center">
         <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
           Our Best Architects
