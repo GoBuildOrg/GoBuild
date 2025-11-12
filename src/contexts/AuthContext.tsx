@@ -45,56 +45,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  useEffect(() => {
-    // Set up the auth state listener first
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        
-        setTimeout(async()=>{
-          if (currentSession?.user) {
-          // Fetch user role when user is signed in
-          const role = await fetchUserRole(currentSession.user.id);
-          setUserRole(role);
-        } else {
-          // Clear user role when user is signed out
-          setUserRole(null);
-        }
-        // Handle events
-        if (event === 'SIGNED_IN') {
-          toast({
-            title: "Welcome back!",
-            description: "You have successfully signed in.",
-          });
-        } else if (event === 'SIGNED_OUT') {
-          toast({
-            title: "Signed out",
-            description: "You have been signed out successfully.",
-          });
-        }
-        },0);
-      }
-    );
-    
-    // Then check for existing session
-    supabase.auth.getSession().then(async ({ data: { session: currentSession } }) => {
+useEffect(() => {
+  let lastUserId = null;
+  let lastEvent = null;
+
+  const fetchAndSetUserRole = async (userId) => {
+    if (!userId || userId === lastUserId) return;
+    lastUserId = userId;
+
+    const role = await fetchUserRole(userId);
+    setUserRole(role);
+  };
+
+  supabase.auth.getSession().then(async ({ data: { session: currentSession } }) => {
+    setSession(currentSession);
+    setUser(currentSession?.user ?? null);
+
+    if (currentSession?.user) {
+      await fetchAndSetUserRole(currentSession.user.id);
+    }
+
+    setLoading(false);
+  });
+
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    async (event, currentSession) => {
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
-      
-      if (currentSession?.user) {
-        // Fetch user role for existing session
-        const role = await fetchUserRole(currentSession.user.id);
-        setUserRole(role);
-      }
-      
-      setLoading(false);
-    });
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
+      if (event === lastEvent) return;
+      lastEvent = event;
+
+      if (currentSession?.user) {
+        await fetchAndSetUserRole(currentSession.user.id);
+      } else {
+        setUserRole(null);
+      }
+
+      if (event === 'SIGNED_IN') {
+        toast({ title: "Welcome back!", description: "You have successfully signed in." });
+      } else if (event === 'SIGNED_OUT') {
+        toast({ title: "Signed out", description: "You have been signed out successfully." });
+      }
+    }
+  );
+
+  return () => subscription.unsubscribe();
+}, [navigate]);
 
   const signIn = async (email: string, password: string) => {
     try {
