@@ -8,6 +8,8 @@ import { Loader2, CheckCircle2, Smile } from "lucide-react";
 import BmodelArchitect from "@/components/BmodelArchitect";
 import ImageSlider from "@/components/ImageSlider";
 import { ArchitectForm } from "@/components/ArchitectForm";
+import HeroSectionArchitect from "@/components/ArchitectHero";
+import BestArchitectsSection from "@/components/BestArchitectsSection";   // ⭐ NEW COMPONENT ADDED
 
 const ArchitectsPage = () => {
   const { user } = useAuth();
@@ -226,88 +228,16 @@ const ArchitectsPage = () => {
   return (
     <div className="bg-white min-h-screen font-sans">
       <Navbar />
-      <ImageSlider/>
+      <ImageSlider />
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 py-12 pb-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-            Hire <span className="text-blue-600">Top Architects</span> <br /> for
-            Your Dream Project
-          </h1>
-          <p className="text-gray-600 text-lg mb-6">
-            Design your ideal space with the best architects — experts in
-            innovative planning, interior design, and modern construction
-            solutions.
-          </p>
-          <div className="relative w-full max-w-md mb-6">
-            <input
-              type="text"
-              placeholder="Search architects..."
-              className="w-full py-3 px-5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Search →
-            </button>
-          </div>
+      <HeroSectionArchitect
+        search={search}
+        setSearch={setSearch}
+        handleRegisterClick={handleRegisterClick}
+        isAlreadyRegistered={isAlreadyRegistered}
+        message={message}
+      />
 
-          <button
-            onClick={handleRegisterClick}
-            className={`${
-              isAlreadyRegistered
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            } text-white px-6 py-2 rounded-lg font-semibold transition`}
-            disabled={isAlreadyRegistered}
-          >
-            {isAlreadyRegistered ? "Already Registered" : "Register as Architect"}
-          </button>
-        </div>
-
-        {/* Right Side Video */}
-        <div className="relative">
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-            <iframe
-              width="100%"
-              height="320"
-              src="https://www.youtube.com/embed/5aJjXXQPqpM"
-              title="Architect Promo Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full rounded-2xl"
-            ></iframe>
-          </div>
-
-          {/* Floating Verified Experts */}
-          <div className="absolute -top-6 -right-6 bg-white rounded-lg p-4 shadow-lg animate-fade-in animation-delay-300 animate-bounce-slow hidden md:block">
-            <div className="flex items-center space-x-2">
-              <div className="bg-green-100 rounded-full p-2">
-                <CheckCircle2 className="text-green-600 w-5 h-5" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-gray-800">Verified Experts</p>
-                <p className="text-xs text-gray-500">Background Checked</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Floating Happy Clients */}
-          <div className="absolute -bottom-6 -left-6 bg-white rounded-lg p-4 shadow-lg animate-fade-in animation-delay-400 animate-bounce-slow hidden md:block">
-            <div className="flex items-center space-x-2">
-              <div className="bg-blue-100 rounded-full p-2">
-                <Smile className="text-blue-600 w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">Happy Clients</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Registration Form */}
       {showForm && user && !isAlreadyRegistered && (
         <section 
           ref={formRef}
@@ -400,67 +330,10 @@ const ArchitectsPage = () => {
       )}
       <ArchitectForm />
       <BmodelArchitect />
-      {/*  Heading Added Below Cards Section */}
-      <section className="max-w-6xl mx-auto px-4 md:px-0 mt-16 mb-8 text-center">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
-          Our Best Architects
-        </h2>
-        <p className="text-gray-600 mt-2 text-lg">
-          Explore profiles of talented architects ready to design your dream space.
-        </p>
-      </section>
-
-      
-
-      {/* Architects Grid */}
-      <section className="max-w-6xl mx-auto px-4 md:px-0 mt-6 mb-20">
-        {loading ? (
-          <div className="flex justify-center items-center h-40">
-            <Loader2 className="animate-spin w-8 h-8 text-blue-600" />
-          </div>
-        ) : filteredArchitects.length === 0 ? (
-          <p className="text-center text-gray-500">No architects found.</p>
-        ) : (
-          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredArchitects.map((arch) => (
-              <div
-                key={arch.id}
-                className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-transform transform hover:scale-105 overflow-hidden flex flex-col"
-              >
-                <img
-                  src={arch.image_url || "/placeholder-architect.jpg"}
-                  alt={arch.name}
-                  className="w-full h-56 sm:h-64 object-cover"
-                  loading="lazy"
-                />
-                <div className="p-5 flex flex-col justify-between flex-1">
-                  <div>
-                    <h3 className="text-xl font-bold mb-1 text-gray-900 line-clamp-2">
-                      {arch.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-3">
-                      {arch.specialization || "Specialization not specified"}
-                    </p>
-                    <p className="text-gray-700 mb-5 text-sm line-clamp-3">
-                      {arch.description ||
-                        "Expert in architectural design and planning."}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() =>
-                      navigate(`/categories/architect-detail/${arch.id}`)
-                    }
-                    className="mt-auto bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                  >
-                    View Details
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      <BestArchitectsSection
+        loading={loading}
+        filteredArchitects={filteredArchitects}
+      />
 
       <Footer />
     </div>
