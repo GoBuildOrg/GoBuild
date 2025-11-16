@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HeroForm from '@/components/HeroForm';
 import { ApplyAsProfessionalForm } from '@/components/ApplyAsProfessionalForm';
+import WorkerCategories from '@/components/WorkerCategories';
 
 const accentColor = 'text-orange-600';
 
 const Workers: React.FC = () => {
   const navigate = useNavigate();
+
+  const [showForm, setShowForm] = useState(false);
 
   return (
     <div className="bg-white min-h-screen font-sans relative">
@@ -27,10 +30,10 @@ const Workers: React.FC = () => {
             </p>
 
             <button
-              onClick={() => navigate('/services')}
+              onClick={() => setShowForm(true)}
               className="bg-orange-600 text-white px-6 py-4 rounded-lg font-bold flex items-center justify-center gap-3 hover:bg-blue-700 transition text-lg shadow-lg min-w-[200px] animate-pulse-shadow"
             >
-              Book a Service
+              Register As a Worker
             </button>
           </div>
 
@@ -43,16 +46,32 @@ const Workers: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="mt-20">
-        <div className="w-full flex justify-center py-10 ">
-  <div className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
-    <h2 className="text-center text-3xl font-bold mb-6">
-      Register as Worker
-    </h2>
-    <ApplyAsProfessionalForm />
-  </div>
-</div>
 
+      <div className="mt-20">
+
+        {/* FORM WITH CROSS BUTTON */}
+        {showForm && (
+          <div className="w-full flex justify-center py-10 relative">
+            <div className="w-full max-w-3xl bg-white shadow-lg rounded-2xl p-8 border border-gray-200 relative">
+
+              {/* CROSS BUTTON (small + black) */}
+              <button
+                onClick={() => setShowForm(false)}
+                className="absolute top-4 right-4 text-black text-xl"
+              >
+                x
+              </button>
+
+              <h2 className="text-center text-3xl font-bold mb-6">
+                Register as Worker
+              </h2>
+
+              <ApplyAsProfessionalForm />
+            </div>
+          </div>
+        )}
+
+        <WorkerCategories />
         <Footer />
       </div>
     </div>
