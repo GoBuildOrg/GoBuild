@@ -17,7 +17,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const Login = () => {
-  const { user, signIn } = useAuth();
+  const { user, signIn, signInWithGoogle } = useAuth();
   const [searchParams] = useSearchParams();
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -34,6 +34,14 @@ const Login = () => {
       await signIn(data.email, data.password);
     } catch (error) {
       // Error is handled in the auth context
+      console.error(error);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
       console.error(error);
     }
   };
@@ -108,6 +116,18 @@ const Login = () => {
             </div>
           </form>
         </Form>
+
+        <div className="mt-4 flex flex-col items-center gap-4">
+          <Button
+            onClick={handleGoogleSignIn}
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-gray-300 bg-white hover:bg-gray-50 max-w-md w-full justify-center"
+            aria-label="Sign in with Google"
+            title="Sign in with Google"
+          >
+            <img src="/google-logo.svg" alt="Google" className="h-6 w-6" />
+            <span className="text-sm font-medium text-gray-900">Sign in with Google</span>
+          </Button>
+        </div>
 
         <p className="mt-4 text-center text-sm text-muted-foreground">
           Don't have an account?{' '}

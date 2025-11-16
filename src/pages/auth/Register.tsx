@@ -18,7 +18,7 @@ const registerSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const Register = () => {
-  const { user, signUp } = useAuth();
+  const { user, signUp, signInWithGoogle } = useAuth();
   const [searchParams] = useSearchParams();
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -36,6 +36,15 @@ const Register = () => {
       await signUp(data.email, data.password, data.fullName);
     } catch (error) {
       // Error is handled in the auth context
+      console.error(error);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      // Sign up via Google uses the same OAuth flow as sign-in
+      await signInWithGoogle();
+    } catch (error) {
       console.error(error);
     }
   };
@@ -130,7 +139,20 @@ const Register = () => {
           </form>
         </Form>
 
-        <p className="mt-4 text-center text-sm text-muted-foreground">
+        <div className="mt-4 flex flex-col items-center gap-4">
+          {/* Pill-shaped sign-up button */}
+          <Button
+            onClick={handleGoogleSignUp}
+            className="flex items-center gap-3 px-6 py-3 rounded-2xl border border-gray-300 bg-white hover:bg-gray-50 max-w-md w-full justify-center"
+            aria-label="Sign in with Google"
+            title="Sign in with Google"
+          >
+            <img src="/google-logo.svg" alt="Google" className="h-6 w-6" />
+            <span className="text-sm font-medium text-gray-900">Sign in with Google</span>
+          </Button>
+        </div>
+
+          <p className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{' '}
           <Link 
             to={`/auth/login${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
