@@ -178,7 +178,7 @@ return(
               </Popover>
             </div>
 
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label className="text-sm font-medium text-sky-900">Referral Code</label>
               <Input
                 type="text"
@@ -187,7 +187,7 @@ return(
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value)}
               />
-            </div>
+            </div> */}
           </div>
 
           {/* LOCATION AUTOCOMPLETE */}
