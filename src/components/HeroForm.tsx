@@ -248,16 +248,16 @@ return(
                 <SelectValue placeholder="Select service type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="carpenter">Carpenter -  850rs/day</SelectItem>
-                <SelectItem value="mason">Mason - 850rs/day</SelectItem>
-                <SelectItem value="helper">Helper - 650rs/day</SelectItem>
-                <SelectItem value="painter">Painter -  700rs/day</SelectItem>
-                <SelectItem value="welder">Welder - 1200rs/day</SelectItem>
-                <SelectItem value="labour">Labour - 650rs/day</SelectItem>
-                <SelectItem value="steelcutter">Steel Cutter - 850rs/day</SelectItem>
-                <SelectItem value="tiles">Tiles and Floor Work - 1000rs/day</SelectItem>
-                <SelectItem value="plumber">Plumber - 1200rs/day</SelectItem>
-                <SelectItem value="electrician">Electrician - 1200rs/day</SelectItem>
+                <SelectItem value="carpenter">Carpenter</SelectItem>
+                <SelectItem value="mason">Mason</SelectItem>
+                <SelectItem value="helper">Helper</SelectItem>
+                <SelectItem value="painter">Painter</SelectItem>
+                <SelectItem value="welder">Welder</SelectItem>
+                <SelectItem value="labour">Labour</SelectItem>
+                <SelectItem value="steelcutter">Steel Cutter</SelectItem>
+                <SelectItem value="tiles">Tiles and Floor Work</SelectItem>
+                <SelectItem value="plumber">Plumber</SelectItem>
+                <SelectItem value="electrician">Electrician</SelectItem>
               </SelectContent>
             </Select>
           </div>
