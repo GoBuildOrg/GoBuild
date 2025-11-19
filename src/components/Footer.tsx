@@ -37,18 +37,18 @@ const Footer: React.FC = () => {
               <p className="mt-3 text-gray-400">{t('footer.tagline')}</p>
             </div>
             <div className="flex space-x-4">
-              <a href="https://www.facebook.com/profile.php?id=61575209711749&rdid=JTYVbMh4ok4a5cCN&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1aECBVh8hC%2F#" className="hover:text-accent transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61576597176606" className="hover:text-accent transition-colors" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
               <a href="https://www.instagram.com/gobuild_in/" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <Link to="/contact" className="hover:text-accent transition-colors" aria-label="Twitter">
-                <Twitter className="w-5 h-5" />
-              </Link>
-              <a href="https://www.linkedin.com/company/gobuildin/?viewAsMember=true" className="hover:text-accent transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-5 h-5" />
-              </a>
+               <a href="https://x.com/GoBuildInd" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors"aria-label="Twitter">
+               <Twitter className="w-5 h-5" />
+               </a>
+            <a href="https://www.linkedin.com/company/gobuildin/?viewAsMember=true" className="hover:text-accent transition-colors" aria-label="LinkedIn">
+                  <Linkedin className="w-5 h-5" />
+                </a>
             </div>
           </div>
 
