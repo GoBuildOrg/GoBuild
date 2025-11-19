@@ -94,55 +94,84 @@ const Contractors: React.FC = () => {
       <Navbar />
 
       {/* HERO SECTION */}
-      <div className="max-w-6xl mx-auto pt-20 px-4 flex flex-col items-center">
-        <div className="flex flex-col-reverse md:flex-row md:gap-16 items-center w-full">
-          <div className="w-full md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-4xl sm:text-5xl font-extrabold mb-6">
-              <span className="text-black">Hire Reliable </span>
-              <span className={accentColor}>Contractors</span>
-              <span className="text-black"> for Your Needs</span>
-            </h1>
-            <p className="text-gray-700 text-lg mb-6">
-              Find skilled contractors for construction, renovation, and repair projects.
-            </p>
+      <div
+  className="relative w-full h-[420px] md:h-[480px] bg-cover bg-center flex flex-col items-center justify-center text-center px-4"
+  style={{
+    // Contractor / construction site image
+    backgroundImage:
+      'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop")',
+  }}
+>
+  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-            <div className="flex gap-2 mb-4">
-  <input
-    type="text"
-    placeholder="Search Contractors..."
-    className="w-full p-3 border rounded-lg focus:ring focus:ring-yellow-500"
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
+  <div className="relative z-10 max-w-3xl mx-auto mt-10">
+    <h1 className="text-white text-3xl md:text-4xl font-extrabold mb-4">
+      Hire Professional Contractors
+    </h1>
 
-  <button
-    onClick={() => setSearch(search)}
-    className="bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition font-semibold"
-  >
-    Search
-  </button>
+    <p className="text-gray-200 text-lg mb-6">
+      Connect with verified contractors for construction, renovation, interiors, and repairs.
+      Get reliable experts who deliver quality work on time.
+    </p>
+
+    <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
+      <button
+        onClick={handleRegisterClick}
+        className="px-6 py-3 bg-white text-gray-900 font-bold rounded-lg shadow-md hover:bg-gray-100 transition"
+      >
+        Register as Contractor
+      </button>
+    </div>
+  </div>
 </div>
 
-            <button
-              onClick={handleRegisterClick}
-              className={`${
-                isAlreadyRegistered ? "bg-gray-400" : "bg-yellow-600 hover:bg-yellow-700"
-              } text-white px-6 py-2 rounded-lg font-semibold transition`}
-              disabled={isAlreadyRegistered}
-            >
-              {isAlreadyRegistered ? "Already Registered" : "Register as Contractor"}
-            </button>
+<div className="w-full py-16 bg-white">
+  <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+    Popular Contractor Service Categories
+  </h2>
 
-            {message && <p className="mt-3 text-red-600 font-medium">{message}</p>}
-          </div>
+  <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
 
-          <img
-            src="https://mccoymart.com/post/wp-content/webp-express/webp-images/uploads/Centring-Shuttering-Contractors.jpg.webp"
-            alt="Contractor working"
-            className="rounded-2xl shadow-xl object-cover w-full md:w-1/2 h-[340px]"
-          />
-        </div>
-      </div>
+    {/* General Contracting */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-3xl mb-3">🏗️</div>
+      <h3 className="text-lg font-semibold text-gray-800">General Contracting</h3>
+      <p className="text-sm text-gray-500 mt-2">
+        Complete construction projects civil work, structure & site management.
+      </p>
+    </div>
+
+    {/* Design & Build */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-3xl mb-3">🧭</div>
+      <h3 className="text-lg font-semibold text-gray-800">Design & Build</h3>
+      <p className="text-sm text-gray-500 mt-2">
+        End-to-end service: design, engineering, and execution under one contract.
+      </p>
+    </div>
+
+    {/* Renovation & Remodeling */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-3xl mb-3">🔨</div>
+      <h3 className="text-lg font-semibold text-gray-800">Renovation & Remodeling</h3>
+      <p className="text-sm text-gray-500 mt-2">
+        Home/office refurbishments, extensions, interiors and retrofit works.
+      </p>
+    </div>
+
+    {/* Project Management & Consultancy */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-3xl mb-3">📋</div>
+      <h3 className="text-lg font-semibold text-gray-800">Project Mgmt & Consultancy</h3>
+      <p className="text-sm text-gray-500 mt-2">
+        Cost estimation, scheduling, quality control & permit management.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+
 
       {/* FORM SECTION */}
       {showForm && user && !isAlreadyRegistered && (
