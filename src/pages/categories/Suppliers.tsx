@@ -199,80 +199,106 @@ const MaterialSupplierPage = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 py-24 pb-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-            Find the <span className="text-blue-600">Best Material Suppliers</span> <br /> for
-            Your Construction Needs
-          </h1>
-          <p className="text-gray-600 text-lg mb-6">
-            Connect with trusted material suppliers offering high-quality building materials
-            including cement, steel, wood, tiles, and more.
-          </p>
-          <div className="relative w-full max-w-md mb-6">
-            <input
-              type="text"
-              placeholder="Search suppliers..."
-              className="w-full py-3 px-5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Search →
-            </button>
-          </div>
+      <div
+  className="relative w-full h-[420px] md:h-[480px] bg-cover bg-center flex flex-col items-center justify-center text-center px-4"
+  style={{
+    // Updated image to represent materials (bricks/construction site)
+    backgroundImage:
+      'url("https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop")',
+  }}
+>
+  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-          <button
-            onClick={handleRegisterClick}
-            className={`${
-              isAlreadyRegistered
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            } text-white px-6 py-2 rounded-lg font-semibold transition`}
-            disabled={isAlreadyRegistered}
-          >
-            {isAlreadyRegistered ? "Already Registered" : "Register as Supplier"}
-          </button>
-        </div>
+  <div className="relative z-10 max-w-3xl mx-auto mt-10">
+    <h1 className="text-white text-3xl md:text-4xl font-extrabold mb-4">
+      Buy Quality Construction Materials
+    </h1>
 
-        {/* Right Side Video */}
-        <div className="relative">
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-            <iframe
-              width="100%"
-              height="320"
-              src="https://www.youtube.com/embed/5aJjXXQPqpM"
-              title="Material Supplier Video"
-              allowFullScreen
-              className="w-full rounded-2xl"
-            ></iframe>
-          </div>
+    <p className="text-gray-200 text-lg mb-6">
+      Connect with verified, trusted material suppliers.
+      From cement and steel to bricks and tiles, find the best materials for your project.
+    </p>
 
-          {/* Floating Cards */}
-          <div className="absolute -top-8 -right-6 bg-white rounded-lg p-4 shadow-lg md:block animate-bounce">
-            <div className="flex items-center space-x-2">
-              <div className="bg-green-100 rounded-full p-2">
-                <CheckCircle2 className="text-green-600 w-5 h-5" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-gray-800">Verified Suppliers</p>
-                <p className="text-xs text-gray-500">Trusted & Rated</p>
-              </div>
-            </div>
-          </div>
+    <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
+      <button
+        onClick={handleRegisterClick}
+        className="px-6 py-3 bg-white text-gray-900 font-bold rounded-lg shadow-md hover:bg-gray-100 transition"
+      >
+        Register as Supplier
+      </button>
+    </div>
+  </div>
+</div>
 
-          <div className="absolute -bottom-8 -left-6 bg-white rounded-lg p-4 shadow-lg md:block animate-pulse">
-            <div className="flex items-center space-x-2">
-              <div className="bg-blue-100 rounded-full p-2">
-                <Smile className="text-blue-600 w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500">Happy Builders</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+<div className="w-full py-16 bg-white">
+  <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+    Popular Material Categories
+  </h2>
+
+  <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
+
+    {/* Cement */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-gray-500 text-4xl mb-3">🏗️</div>
+      <h3 className="text-lg font-semibold text-gray-800">Cement</h3>
+    </div>
+
+    {/* Steel & Iron */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-gray-800 text-4xl mb-3">⛓️</div>
+      <h3 className="text-lg font-semibold text-gray-800">Steel & Iron</h3>
+    </div>
+
+    {/* Bricks */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-red-600 text-4xl mb-3">🧱</div>
+      <h3 className="text-lg font-semibold text-gray-800">Bricks</h3>
+    </div>
+
+    {/* Sand & Aggregates */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-yellow-600 text-4xl mb-3">🏜️</div>
+      <h3 className="text-lg font-semibold text-gray-800">Sand & Bajri</h3>
+    </div>
+
+    {/* Wood & Timber */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-amber-800 text-4xl mb-3">🪵</div>
+      <h3 className="text-lg font-semibold text-gray-800">Wood & Timber</h3>
+    </div>
+
+    {/* Tiles & Marbles */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-indigo-500 text-4xl mb-3">⬜</div>
+      <h3 className="text-lg font-semibold text-gray-800">Tiles & Marble</h3>
+    </div>
+
+    {/* Paints */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-pink-500 text-4xl mb-3">🎨</div>
+      <h3 className="text-lg font-semibold text-gray-800">Paints</h3>
+    </div>
+
+    {/* Electrical */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-yellow-400 text-4xl mb-3">💡</div>
+      <h3 className="text-lg font-semibold text-gray-800">Electrical</h3>
+    </div>
+
+    {/* Plumbing */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-blue-500 text-4xl mb-3">🚰</div>
+      <h3 className="text-lg font-semibold text-gray-800">Plumbing</h3>
+    </div>
+
+    {/* Glass & Hardware */}
+    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+      <div className="text-cyan-600 text-4xl mb-3">🪟</div>
+      <h3 className="text-lg font-semibold text-gray-800">Glass & Hardware</h3>
+    </div>
+
+  </div>
+</div>
 
       {/* Registration Form */}
       {showForm && user && !isAlreadyRegistered && (

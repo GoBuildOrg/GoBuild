@@ -16,7 +16,7 @@ const Workers: React.FC = () => {
   const handleRegisterClick = () => {
     setShowForm(true);
 
-    // ⭐ scroll after slight delay so form becomes visible first
+    //  scroll after slight delay so form becomes visible first
     setTimeout(() => {
       formRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 200);
