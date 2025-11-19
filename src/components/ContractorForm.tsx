@@ -7,10 +7,10 @@ interface ContractorFormProps {
 
 const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
-    Name: "",
-    PhoneNo: "",
-    Description: "",
-    Specialization: "",
+    name: "",
+    Phone_No: "",
+    description: "",
+    specialization: "",
     location: "",
   });
 
@@ -21,45 +21,45 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ---------------- IMAGE UPLOAD FUNCTION ----------------
-  const handleImageUpload = async () => {
+  /**
+   * Upload image to Supabase storage (bucket: contractor)
+   */
+  const uploadImage = async () => {
     if (!imageFile) return null;
 
     const fileName = `contractor_${Date.now()}_${imageFile.name}`;
 
-    const { data, error } = await supabase.storage
-      .from("contractor")
-      .upload(fileName, imageFile);
+    const { error } = await supabase.storage.from("contractor").upload(fileName, imageFile);
 
     if (error) {
-      console.log(error);
       alert("Image upload failed!");
+      console.log(error);
       return null;
     }
 
-    const { data: urlData } = supabase.storage
-      .from("contractor")
-      .getPublicUrl(fileName);
-
-    return urlData.publicUrl;
+    return supabase.storage.from("contractor").getPublicUrl(fileName).data.publicUrl;
   };
 
+  /**
+   * Save contractor to Supabase
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const uploadedImageUrl = await handleImageUpload();
+    const uploadedImageUrl = await uploadImage();
+
     const user = (await supabase.auth.getUser()).data.user;
 
     const { error } = await supabase.from("contractors_register").insert([
       {
-        Name: formData.Name,
-        Phone_No: formData.PhoneNo,
-        Description: formData.Description,
-        Specialization: formData.Specialization,
+        name: formData.name,
+        Phone_No: formData.Phone_No,
+        description: formData.description,
+        specialization: formData.specialization,
         location: formData.location,
-        image_url: uploadedImageUrl || null,
-        user_id: user?.id || null,
+        image_url: uploadedImageUrl,
+        user_id: user?.id,
       },
     ]);
 
@@ -67,18 +67,21 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
 
     if (error) {
       console.log(error);
-      alert("Error saving contractor!");
+      alert("❌ Failed to register contractor!");
     } else {
-      alert("Contractor Registered Successfully!");
-      onSuccess(); // parent ko inform
+      alert("🎉 Contractor Registered Successfully!");
+
+      // reset form
       setFormData({
-        Name: "",
-        PhoneNo: "",
-        Description: "",
-        Specialization: "",
+        name: "",
+        Phone_No: "",
+        description: "",
+        specialization: "",
         location: "",
       });
       setImageFile(null);
+
+      onSuccess(); // callback
     }
   };
 
@@ -87,11 +90,11 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
       <div>
         <label className="block text-lg font-semibold">Name</label>
         <input
-          name="Name"
-          value={formData.Name}
+          name="name"
+          value={formData.name}
           onChange={handleChange}
           className="w-full border p-3 rounded-lg"
-          placeholder="Your Name"
+          placeholder="Full Name"
           required
         />
       </div>
@@ -99,9 +102,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
       <div>
         <label className="block text-lg font-semibold">Phone Number</label>
         <input
-          name="PhoneNo"
-          type="number"
-          value={formData.PhoneNo}
+          name="Phone_No"
+          value={formData.Phone_No}
           onChange={handleChange}
           className="w-full border p-3 rounded-lg"
           placeholder="Enter Phone Number"
@@ -112,11 +114,11 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
       <div>
         <label className="block text-lg font-semibold">Specialization</label>
         <input
-          name="Specialization"
-          value={formData.Specialization}
+          name="specialization"
+          value={formData.specialization}
           onChange={handleChange}
           className="w-full border p-3 rounded-lg"
-          placeholder="Mason, Electrician, Plumber..."
+          placeholder="Mason, Electrician, Painter..."
           required
         />
       </div>
@@ -128,23 +130,23 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onSuccess }) => {
           value={formData.location}
           onChange={handleChange}
           className="w-full border p-3 rounded-lg"
-          placeholder="Your city / Area"
+          placeholder="City / Area"
         />
       </div>
 
       <div>
         <label className="block text-lg font-semibold">Description</label>
         <textarea
-          name="Description"
-          value={formData.Description}
+          name="description"
+          value={formData.description}
           onChange={handleChange}
           className="w-full border p-3 rounded-lg h-28"
-          placeholder="Describe your work experience"
+          placeholder="Describe your work experience..."
         />
       </div>
 
       <div>
-        <label className="block text-lg font-semibold">Upload Image</label>
+        <label className="block text-lg font-semibold">Upload Profile Image</label>
         <input
           type="file"
           accept="image/*"
