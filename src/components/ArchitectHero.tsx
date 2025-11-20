@@ -1,5 +1,4 @@
-import React from "react";
-import { CheckCircle2, Smile } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 interface HeroProps {
   search: string;
@@ -16,98 +15,85 @@ const HeroSectionArchitect: React.FC<HeroProps> = ({
   isAlreadyRegistered,
   message,
 }) => {
+  const images = [
+    "https://plus.unsplash.com/premium_photo-1661335257817-4552acab9656?fm=jpg&q=60&w=3000",
+    "https://modernsteeldoors.com/wp-content/uploads/stock-photo-modern-house-1-scaled.jpg",
+    "https://blog.novatr.com/hubfs/An%20architect%20creating%20a%20building%20model.webp",
+  ];
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="max-w-7xl mx-auto px-6 py-12 pb-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center relative">
-      <div>
-        <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-          Hire <span className="text-blue-600">Top Architects</span> <br /> for
-          Your Dream Project
-        </h1>
+  <section className="relative w-full h-[440px] md:h-[500px] overflow-hidden">
+    {/* Image Slider */}
+    <div
+      className="absolute inset-0 flex transition-transform duration-[1500ms] ease-in-out"
+      style={{
+        width: `${images.length * 100}%`,
+        transform: `translateX(-${index * (100 / images.length)}%)`,
+      }}
+    >
+      {images.map((img, i) => (
+        <img
+          key={i}
+          src={img}
+          className="w-full h-full object-cover"
+          alt="bg"
+        />
+      ))}
+    </div>
 
-        <p className="text-gray-600 text-lg mb-6">
-          Design your ideal space with the best architects — experts in
-          innovative planning, interior design, and modern construction
-          solutions.
-        </p>
+    {/* Dark Overlay */}
+    <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
-        {/* Search Bar */}
-        <div className="relative w-full max-w-md mb-6">
-          <input
-            type="text"
-            placeholder="Search architects..."
-            className="w-full py-3 px-5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            Search →
-          </button>
-        </div>
+    {/* Hero Content */}
+    <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 h-full">
+      <h1 className="text-white text-3xl md:text-4xl font-extrabold mb-4">
+        Hire <span className="text-blue-400">Expert Architects</span>
+        <br /> For Your Dream Project
+      </h1>
 
-        {/* Register */}
+      <p className="text-gray-200 text-lg mb-6">
+        Connect with skilled and verified architects for interior design,
+        renovation, planning and modern construction solutions.
+      </p>
+
+      <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
         <button
           onClick={handleRegisterClick}
-          className={`${
+          className={`px-6 py-3 rounded-lg font-bold shadow-md transition ${
             isAlreadyRegistered
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          } text-white px-6 py-2 rounded-lg font-semibold transition`}
+              ? "bg-gray-400 cursor-not-allowed text-white"
+              : "bg-white text-gray-900 hover:bg-gray-100"
+          }`}
           disabled={isAlreadyRegistered}
         >
           {isAlreadyRegistered ? "Already Registered" : "Register as Architect"}
         </button>
-
-        {/* Message */}
-        {message && (
-          <p
-            className={`mt-4 font-medium ${
-              message.includes("Successfully") ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </div>
 
-      {/* Right Side Video */}
-      <div className="relative">
-        <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200">
-          <iframe
-            width="100%"
-            height="320"
-            src="https://www.youtube.com/embed/5aJjXXQPqpM"
-            title="Architect Promo Video"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full rounded-2xl"
-          ></iframe>
-        </div>
+      {message && (
+        <p
+          className={`mt-4 font-medium ${
+            message.includes("Successfully")
+              ? "text-green-400"
+              : "text-red-400"
+          }`}
+        >
+          {message}
+        </p>
+      )}
+    </div>
+  </section>
+);
 
-        {/* Floating Verified Experts */}
-        <div className="absolute -top-6 -right-6 bg-white rounded-lg p-4 shadow-lg hidden md:block">
-          <div className="flex items-center space-x-2">
-            <div className="bg-green-100 rounded-full p-2">
-              <CheckCircle2 className="text-green-600 w-5 h-5" />
-            </div>
-            <div>
-              <p className="font-semibold text-sm text-gray-800">Verified Experts</p>
-              <p className="text-xs text-gray-500">Background Checked</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating Happy Clients */}
-        <div className="absolute -bottom-6 -left-6 bg-white rounded-lg p-4 shadow-lg hidden md:block">
-          <div className="flex items-center space-x-2">
-            <div className="bg-blue-100 rounded-full p-2">
-              <Smile className="text-blue-600 w-5 h-5" />
-            </div>
-            <p className="text-xs text-gray-500">Happy Clients</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
 };
 
 export default HeroSectionArchitect;

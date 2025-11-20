@@ -6,10 +6,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, CheckCircle2, Smile } from "lucide-react";
 import BmodelArchitect from "@/components/BmodelArchitect";
-import ImageSlider from "@/components/ImageSlider";
+
 import { ArchitectForm } from "@/components/ArchitectForm";
 import HeroSectionArchitect from "@/components/ArchitectHero";
-import BestArchitectsSection from "@/components/BestArchitectsSection";   // ⭐ NEW COMPONENT ADDED
+import BestArchitectsSection from "@/components/BestArchitectsSection";   
 
 const ArchitectsPage = () => {
   const { user } = useAuth();
@@ -228,8 +228,6 @@ const ArchitectsPage = () => {
   return (
     <div className="bg-white min-h-screen font-sans">
       <Navbar />
-      <ImageSlider />
-
       <HeroSectionArchitect
         search={search}
         setSearch={setSearch}
