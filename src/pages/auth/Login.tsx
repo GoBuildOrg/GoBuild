@@ -138,6 +138,15 @@ const Login = () => {
             Sign up
           </Link>
         </p>
+        <p className=" text-center text-sm text-muted-foreground">
+          Forgot my Password!{' '}
+          <Link 
+            to={`/auth/reset-password${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
+            className="font-medium text-primary hover:text-accent"
+          >
+            Reset Password
+          </Link>
+        </p>
       </div>
     </>
   );
