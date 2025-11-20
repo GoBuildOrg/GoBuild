@@ -34,21 +34,21 @@ const HeroSectionArchitect: React.FC<HeroProps> = ({
   <section className="relative w-full h-[440px] md:h-[500px] overflow-hidden">
     {/* Image Slider */}
     <div
-      className="absolute inset-0 flex transition-transform duration-[1500ms] ease-in-out"
-      style={{
-        width: `${images.length * 100}%`,
-        transform: `translateX(-${index * (100 / images.length)}%)`,
-      }}
-    >
-      {images.map((img, i) => (
-        <img
-          key={i}
-          src={img}
-          className="w-full h-full object-cover"
-          alt="bg"
-        />
-      ))}
+  className="absolute inset-0 flex transition-transform duration-[1500ms] ease-in-out"
+  style={{
+    transform: `translateX(-${index * 100}%)`,
+  }}
+>
+  {images.map((img, i) => (
+    <div key={i} className="min-w-full h-full">
+      <img
+        src={img}
+        className="w-full h-full object-cover"
+        alt="bg"
+      />
     </div>
+  ))}
+</div>
 
     {/* Dark Overlay */}
     <div className="absolute inset-0 bg-black bg-opacity-60"></div>
