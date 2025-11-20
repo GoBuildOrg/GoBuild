@@ -37,6 +37,7 @@ import Policy from "./pages/Policy.tsx";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import Pricing from "@/pages/Pricing";
+import UpdatePassword from "./pages/auth/UpdatePassword.tsx";
 
 
 
@@ -75,6 +76,8 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="Forgot" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ForgotPassword />} />
+        <Route path="update-password" element={<UpdatePassword />} />
         
       </Route>
       <Route path="/policy" element={<Policy/>} />
