@@ -21,6 +21,7 @@ import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/auth/Forgot";
+import ResetPassword from "./pages/auth/ResetPassword";
 import Workers from "./pages/categories/Workers";
 import Suppliers from "./pages/categories/Suppliers";
 import HouseOwner from "./pages/categories/HouseOwner";
@@ -77,7 +78,7 @@ const AppRoutes = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="Forgot" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
         <Route path="update-password" element={<UpdatePassword />} />
         
       </Route>

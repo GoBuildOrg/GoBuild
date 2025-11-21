@@ -21,7 +21,7 @@ const UpdatePassword = () => {
 
   const onSubmit = async (data: UpdateValues) => {
     const { error } = await supabase.auth.updateUser({ 
-      password: data.password 
+      password: data.password
     });
 
     if (error) {
