@@ -117,13 +117,14 @@ const Hero: React.FC = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-xl animate-fade-in animation-delay-200">
               <div className="aspect-w-16 aspect-h-9">
                    <iframe
-                        className="w-full h-[400px]"
-                        src="https://www.youtube.com/embed/In1KOe8za5g"
-                        title="YouTube video"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
+                    className="w-full h-[400px]"
+                    src="https://www.youtube.com/embed/A4FD7Sy8z7o?rel=0"
+                    title="YouTube video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                 <div className="flex items-start space-x-4">
