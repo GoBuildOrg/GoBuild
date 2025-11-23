@@ -2,6 +2,7 @@ import { BlogRead } from "@/components/BlogRead";
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { BlogWrite } from "@/components/BlogWrite";
 import { toast } from "sonner";
 
@@ -21,6 +22,7 @@ const Blogs = ({ user_role }: BlogsProps) => {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
+            <SEO title="GoBuild Blog — Construction & Worker Insights" description="Latest articles, tips and insights about construction workers, hiring best practices, and platform updates from GoBuild." url="https://www.gobuild.in/blog" />
 
             {/* Hero Section */}
             <section className="relative overflow-hidden hero-pattern from-primary/8 to-accent/8 py-10 mt-16">

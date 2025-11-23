@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,6 +25,7 @@ const ContactUs: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      <SEO title="Contact GoBuild — Get Support & Inquiries" description="Contact GoBuild for partnership, media, or customer support. Reach our team by phone or email for help hiring construction professionals in Jammu & Delhi." url="https://www.gobuild.in/contact" />
       
       <section className="pt-32 pb-16 bg-white">
         <div className="container mx-auto px-4">

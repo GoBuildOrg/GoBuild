@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Calendar } from '@/components/ui/calendar';
@@ -22,6 +23,7 @@ const ServicesPage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
+      <SEO title="Services — Join or Hire Professionals on GoBuild" description="Apply as a professional or hire skilled workers — carpenters, masons, helpers and more — through GoBuild's trusted network in Jammu and Delhi." url="https://www.gobuild.in/services" />
       
       <main className="flex-grow pt-20">
         <HeroForm />

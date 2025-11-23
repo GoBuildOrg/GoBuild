@@ -1,6 +1,7 @@
 
 import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
+import SEO from '@/components/SEO';
 import Hero from "../components/Hero";
 import WorkerCategories from "../components/WorkerCategories";
 import ServiceCategories from "../components/ServiceCategories";
@@ -48,6 +49,7 @@ const Index: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      <SEO title="Hire Verified Construction Labour Near You" description="Find and hire verified masons, carpenters, electricians and helpers in Jammu and Delhi. Trusted professionals for construction and repair work." keywords="hire construction workers, masons near me, carpenters near me, GoBuild" url="https://www.gobuild.in/" />
       <Hero />
       {/* <Banner/> */}
       <Bmodel />

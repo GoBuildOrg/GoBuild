@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 import { 
   Users, 
   Building, 
@@ -24,6 +25,7 @@ const AboutUs: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      <SEO title="About GoBuild — Trusted Construction Workforce" description="Learn about GoBuild's mission to connect verified construction professionals and help homeowners and businesses find reliable labour in Jammu and Delhi." url="https://www.gobuild.in/about" />
       
       {/* Hero Section with Gradient Background */}
       <section className="pt-24 hero-pattern from-primary/10 to-accent/10">
