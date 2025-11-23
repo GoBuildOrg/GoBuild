@@ -13,13 +13,14 @@ import FAQ from "../components/FAQ";
 import Bmodel from "@/components/Bmodel";
 import VideoTestimonials from "@/components/VideoTestimonials";
 import Solutions from "@/components/Solutions";
+import OfferRibbon from "@/components/OfferRibbon";
 // import { Banner } from "@/components/Banner";
 
 const Index: React.FC = () => {
   // Smooth scroll functionality
   useEffect(() => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+      anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href');
         if (targetId && targetId !== "#") {
@@ -27,7 +28,7 @@ const Index: React.FC = () => {
           if (targetElement) {
             const navbarHeight = 80; // Approximate navbar height
             const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-            
+
             window.scrollTo({
               top: targetPosition,
               behavior: 'smooth'
@@ -39,7 +40,7 @@ const Index: React.FC = () => {
 
     return () => {
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener('click', function(e) {});
+        anchor.removeEventListener('click', function (e) { });
       });
     };
   }, []);
@@ -49,9 +50,10 @@ const Index: React.FC = () => {
       <Navbar />
       <Hero />
       {/* <Banner/> */}
-      <Bmodel/>
-      <HeroForm/>
-      <Solutions/>
+      <Bmodel />
+      <OfferRibbon />
+      <HeroForm />
+      <Solutions />
       <WorkerCategories />
       {/* <ServiceCategories /> */}
       <HowItWorks />
