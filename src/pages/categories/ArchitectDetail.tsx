@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, Upload, X } from "lucide-react";
 import { motion } from "framer-motion";
+import ImageViewer from "@/components/ImageViewer";
+
 
 export default function ArchitectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +33,45 @@ export default function ArchitectDetail() {
   const [projectType, setProjectType] = useState("");
   const [message, setMessage] = useState("");
   const [date, setDate] = useState("");
+
+  // image viewer state
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  // delete logic
+  const handleDeleteImage = async (index: number) => {
+    if (!photos[index] || !id) return;
+
+    const confirmDelete = confirm("Are you sure you want to delete this photo?");
+    if (!confirmDelete) return;
+
+    const fileUrl = photos[index];
+    const fileName = fileUrl.split(`/architect_${id}/`)[1];
+    if (!fileName) return;
+
+    const filePath = `architect_${id}/${fileName}`;
+
+    const { error } = await supabase.storage.from("Architects").remove([filePath]);
+    if (error) {
+      alert("Failed to delete image.");
+      return;
+    }
+
+    // update photo list
+    const updatedPhotos = photos.filter((_, i) => i !== index);
+    setPhotos(updatedPhotos);
+
+    // adjust viewer index safely
+    if (updatedPhotos.length === 0) {
+      setSelectedIndex(null);
+    } else if (index >= updatedPhotos.length) {
+      setSelectedIndex(updatedPhotos.length - 1);
+    } else {
+      setSelectedIndex(index);
+    }
+
+    alert("Image deleted successfully.");
+  };
+
+
 
   // Get current logged-in user
   useEffect(() => {
@@ -85,30 +126,32 @@ export default function ArchitectDetail() {
   const fetchPhotos = async () => {
     if (!id) return;
     setPhotoError(null);
+
     try {
       const folderName = `architect_${id}`;
       const { data, error } = await supabase.storage
         .from("Architects")
         .list(folderName, { limit: 100 });
+
       if (error) {
         console.error("Error listing files:", error);
-        setPhotoError("Failed to load photos. Please refresh the page.");
         setPhotos([]);
         return;
       }
 
-      const urls =
-        data?.map((file) => {
-          const { data: publicData } = supabase.storage
-            .from("Architects")
-            .getPublicUrl(`${folderName}/${file.name}`);
-          return publicData?.publicUrl || "";
-        }) || [];
+      // Generate fresh, non-cached URLs
+      const urls = data.map((file) => {
+        const { data: publicUrl } = supabase.storage
+          .from("Architects")
+          .getPublicUrl(`${folderName}/${file.name}`);
 
-      setPhotos(urls.filter(Boolean));
+        // prevent browser and CDN caching old files
+        return `${publicUrl.publicUrl}?v=${Date.now()}`;
+      });
+
+      setPhotos(urls);
     } catch (err) {
-      console.error("Error fetching photos:", err);
-      setPhotoError("Failed to load photos. Please refresh the page.");
+      console.error(err);
       setPhotos([]);
     }
   };
@@ -118,36 +161,80 @@ export default function ArchitectDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  // Handle photo upload
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!canUpload) {
-      alert("You can only upload photos to your own profile.");
+const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (!canUpload) return alert("You can only upload to your own profile.");
+
+  try {
+    const file = e.target.files?.[0];
+    if (!file || !id) return;
+
+    setUploading(true);
+    const folderName = `architect_${id}`;
+    const fileName = `${Date.now()}_${file.name}`;
+    const filePath = `${folderName}/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("Architects")
+      .upload(filePath, file);
+
+    if (uploadError) {
+      alert("Upload failed.");
       return;
     }
+
+    await fetchPhotos(); // refresh gallery
+  } finally {
+    setUploading(false);
+  }
+};
+
+
+
+  // Handle photo upload
+  const handleProfilePhotoUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !id) return;
+
+    setUploading(true);
+
     try {
-      setPhotoError(null);
-      const file = e.target.files?.[0];
-      if (!file || !id) return;
-      setUploading(true);
-      const folderName = `architect_${id}`;
-      const fileName = `${Date.now()}_${file.name}`;
-      const filePath = `${folderName}/${fileName}`;
+      const fileExt = file.name.split(".").pop();
+      const fileName = `profile_${Date.now()}.${fileExt}`;
+      const filePath = `architect_${id}/${fileName}`;
+
       const { error: uploadError } = await supabase.storage
         .from("Architects")
-        .upload(filePath, file);
+        .upload(filePath, file, { upsert: true });
+
       if (uploadError) {
-        console.error("Upload error:", uploadError);
-        setPhotoError("Failed to upload photo. Please try again.");
+        alert("Error updating profile photo");
         return;
       }
-      await fetchPhotos();
+
+      const { data: publicUrl } = supabase.storage
+        .from("Architects")
+        .getPublicUrl(filePath);
+
+      if (!publicUrl?.publicUrl) return;
+
+      const { error: dbError } = await supabase
+        .from("architects")
+        .update({ image_url: publicUrl.publicUrl })
+        .eq("id", Number(id));
+
+      if (dbError) {
+        alert("Failed to update profile photo in database.");
+        return;
+      }
+
+      setArchitect((prev: any) => ({ ...prev, image_url: publicUrl.publicUrl }));
+      alert("Profile photo updated successfully!");
+
     } catch (err) {
-      console.error("Error uploading photo:", err);
-      setPhotoError("Failed to upload photo. Please try again.");
+      console.error(err);
+      alert("Unexpected error updating profile photo.");
     } finally {
       setUploading(false);
-      // reset file input value if desired (no ref here)
-      // e.currentTarget.value = "";
     }
   };
 
@@ -249,11 +336,32 @@ export default function ArchitectDetail() {
       {/* Profile */}
       <div className="max-w-6xl mx-auto p-6 -mt-20 relative z-10 bg-white rounded-2xl shadow-md">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-          <img
-            src={architect.image_url || "/placeholder-architect.jpg"}
-            alt={architect.name}
-            className="w-40 h-40 object-cover rounded-2xl shadow-md border-4 border-white"
-          />
+          <div className="relative group w-40 h-40">
+            <img
+              src={architect.image_url || "/placeholder-architect.jpg"}
+              alt={architect.name}
+              className="w-full h-full object-cover rounded-2xl shadow-md border-4 border-white"
+            />
+
+            {canUpload && (
+              <>
+                <label
+                  htmlFor="profileImageUpload"
+                  className="absolute inset-0 bg-black/40 text-white text-sm flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer rounded-2xl transition"
+                >
+                  Edit Photo
+                </label>
+
+                <input
+                  type="file"
+                  id="profileImageUpload"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleProfilePhotoUpdate}
+                />
+              </>
+            )}
+          </div>
           <div className="flex flex-col flex-1">
             <h1 className="text-3xl font-bold text-purple-700">{architect.name}</h1>
             <p className="text-gray-700 mt-1">{architect.specialization}</p>
@@ -384,11 +492,23 @@ export default function ArchitectDetail() {
                 alt={`Work ${i + 1}`}
                 className="rounded-xl shadow-md object-cover w-full h-48"
                 whileHover={{ scale: 1.05 }}
+                onClick={() => setSelectedIndex(i)}
               />
             ))}
           </div>
         )}
       </div>
+      {selectedIndex !== null && (
+        <ImageViewer
+          photos={photos}
+          currentIndex={selectedIndex}
+          setCurrentIndex={setSelectedIndex}
+          onClose={() => setSelectedIndex(null)}
+          canDelete={canUpload}              //  only owner can delete
+          onDelete={handleDeleteImage}       //  delete handler
+        />
+      )}
+
 
       <Footer />
     </div>
