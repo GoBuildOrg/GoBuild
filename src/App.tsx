@@ -45,6 +45,7 @@ import UpdatePassword from "./pages/auth/UpdatePassword.tsx";
 
 // Import i18n configuration
 import './i18n';
+import DeveloperDetail from "./pages/categories/DeveloperDetail.tsx";
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,8 @@ const AppRoutes = () => {
         <Route path="architect-detail/:id" element={<ArchitectDetail />} />
         <Route path="material-supplier-detail/:id" element={<MaterialSupplierDetail />} />
         <Route path="/categories/contractor-detail/:id" element={<ContractorDetail />} />
+        <Route path="/categories/builder-detail/:id" element={<DeveloperDetail />}
+/>
 
 
       </Route>
