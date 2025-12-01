@@ -149,35 +149,35 @@ export default function DeveloperDetail() {
   };
 
 
-const submitRequest = async () => {
-  if (!currentUser) {
-    alert("Please login first!");
-    return;
-  }
+  const submitRequest = async () => {
+    if (!currentUser) {
+      alert("Please login first!");
+      return;
+    }
 
-  const { error } = await supabase.from("Developer_Request").insert([
-    {
-      name: formData.name,
-      email: currentUser.email,             
-      phone_number: formData.phone,
-      company: "-",                         
-      project_type: formData.project_type,
-      location: formData.location,
-      estimated_budget: formData.budget,
-      details: formData.message,
-      const_id: developer.id,               
-    },
-  ]);
+    const { error } = await supabase.from("Developer_Request").insert([
+      {
+        name: formData.name,
+        email: currentUser.email,
+        phone_number: formData.phone,
+        company: "-",
+        project_type: formData.project_type,
+        location: formData.location,
+        estimated_budget: formData.budget,
+        details: formData.message,
+        const_id: developer.id,
+      },
+    ]);
 
-  if (error) {
-    console.log(error);
-    alert("Request failed!");
-    return;
-  }
+    if (error) {
+      console.log(error);
+      alert("Request failed!");
+      return;
+    }
 
-  alert("Request sent successfully!");
-  setShowRequestModal(false);
-};
+    alert("Request sent successfully!");
+    setShowRequestModal(false);
+  };
 
 
   if (loading)
@@ -190,6 +190,8 @@ const submitRequest = async () => {
   return (
     <div className="bg-white min-h-screen">
       <Navbar />
+
+
 
       {/* DONE BUTTON */}
       {canEdit && (
@@ -268,10 +270,14 @@ const submitRequest = async () => {
             {photos.map((photo) => (
               <div key={photo.path} className="relative group">
                 <motion.img
-                  src={photo.url}
-                  className="rounded-lg object-cover h-40 w-full"
-                  whileHover={{ scale: 1.05 }}
-                />
+  src={photo.url}
+  className="rounded-lg object-cover h-40 w-full cursor-pointer"
+  whileHover={{ scale: 1.05 }}
+  onClick={() => {
+    setCurrentIndex(photos.findIndex((p) => p.url === photo.url));
+    setViewerOpen(true);
+  }}
+/>
 
                 {canEdit && (
                   <button
@@ -313,8 +319,8 @@ const submitRequest = async () => {
                     key === "project_type"
                       ? "Project Type (Home, Office)"
                       : key === "message"
-                      ? "Message (optional)"
-                      : key
+                        ? "Message (optional)"
+                        : key
                           .replace("_", " ")
                           .replace(/\b\w/g, (l) => l.toUpperCase())
                   }
