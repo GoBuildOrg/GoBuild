@@ -74,6 +74,26 @@ const handleLocationSelect = (value: string) => {
   }
 };
 
+const handleUseCurrentLocation = () => {
+  if (!navigator.geolocation) {
+    toast({ title: 'Error', description: 'Geolocation is not supported by your browser', variant: 'destructive' });
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const { latitude, longitude } = pos.coords;
+      setMapCenter({ lat: latitude, lng: longitude });
+      setLocation(`lat:${latitude.toFixed(5)} , lon:${longitude.toFixed(5)}`);
+      setShowSuggestions(false);
+    },
+    (err) => {
+      toast({ title: 'Error', description: err.message || 'Unable to retrieve your location', variant: 'destructive' });
+    },
+    { enableHighAccuracy: true }
+  );
+};
+
 
 const filteredLocations = locationList.filter((loc) =>
   loc.toLowerCase().includes(location.toLowerCase())
@@ -190,19 +210,31 @@ return(
             </div> */}
           </div>
 
-          {/* LOCATION AUTOCOMPLETE */}
           <div className="space-y-2 relative">
             <label className="text-sm font-medium text-sky-900">Location</label>
 
-            <Input
-              placeholder="Enter location"
-              className="bg-white"
-              value={location}
-              onChange={(e) => {
-                setLocation(e.target.value);
-                setShowSuggestions(true);
-              }}
-            />
+            <div className="flex gap-2 items-center">
+              <span className="relative flex items-center justify-center w-14 h-9 rounded-full bg-gradient-to-tr from-emerald-400 to-sky-500 shadow-md">
+                <MapPin className="w-4 h-4 text-white" />
+                <span className="absolute inline-flex w-9 h-9 rounded-full bg-emerald-300 opacity-30 animate-ping" />
+              </span>
+              <Button
+                variant="outline"
+                className="whitespace-nowrap flex items-center gap-3"
+                onClick={handleUseCurrentLocation}
+              >
+                <span className="font-normal">Current location</span>
+              </Button>
+              <Input
+                placeholder="Enter location"
+                className="bg-white"
+                value={location}
+                onChange={(e) => {
+                  setLocation(e.target.value);
+                  setShowSuggestions(true);
+                }}
+              />
+            </div>
 
             {showSuggestions && location && filteredLocations.length > 0 && (
               <div className="absolute left-0 right-0 top-full mt-1 border rounded-md bg-white max-h-60 overflow-auto shadow-lg z-50">
