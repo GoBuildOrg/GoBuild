@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, Upload, X } from "lucide-react";
 import { motion } from "framer-motion";
+import ImageViewer from "@/components/ImageViewer";
+
 
 export default function ContractorDetail() {
   const { id } = useParams<{ id: string }>();
@@ -29,6 +31,13 @@ export default function ContractorDetail() {
   const [projectType, setProjectType] = useState("");
   const [message, setMessage] = useState("");
   const [date, setDate] = useState("");
+
+  // image viewer states
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+
+
 
   // Load logged-in user
   useEffect(() => {
@@ -64,10 +73,11 @@ export default function ContractorDetail() {
     const { data } = await supabase.storage.from("contractor").list(folder);
 
     const urls =
-      data?.map((file) => {
-        return supabase.storage.from("contractor").getPublicUrl(`${folder}/${file.name}`)
-          .data.publicUrl;
-      }) || [];
+  data
+    ?.filter((file) => !file.name.startsWith("profile_")) // 🚫 exclude profile photos
+    .map((file) =>
+      supabase.storage.from("contractor").getPublicUrl(`${folder}/${file.name}`).data.publicUrl
+    ) || [];
 
     setPhotos(urls);
   };
@@ -78,38 +88,80 @@ export default function ContractorDetail() {
 
   // Upload photo
   const handleUpload = async (e: any) => {
-  if (!canUpload) return alert("Only the contractor can upload images.");
+    if (!canUpload) return alert("Only the contractor can upload images.");
 
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+
+    try {
+      const folder = `contractor_${id}`;
+      const filePath = `${folder}/${Date.now()}_${file.name}`;
+
+      const { error } = await supabase.storage
+        .from("contractor")  // your bucket name
+        .upload(filePath, file);
+
+      if (error) {
+        console.error(error);
+        alert("Upload failed. Check console.");
+        return;
+      }
+
+      // Get public URL
+      const { data: publicData } = supabase.storage``
+        .from("contractor")
+        .getPublicUrl(filePath);
+
+      setPhotos((prev) => [...prev, publicData.publicUrl]); // update UI immediately
+      alert("Photo uploaded successfully!");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleProfilePhotoUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
-  if (!file) return;
+  if (!file || !id) return;
 
   setUploading(true);
 
   try {
-    const folder = `contractor_${id}`;
-    const filePath = `${folder}/${Date.now()}_${file.name}`;
+    const fileExt = file.name.split(".").pop();
+    const fileName = `profile_${Date.now()}.${fileExt}`;
+    const filePath = `contractor_${id}/${fileName}`;
 
-    const { error } = await supabase.storage
-      .from("contractor")  // your bucket name
-      .upload(filePath, file);
+    const { error: uploadError } = await supabase.storage
+      .from("contractor")
+      .upload(filePath, file, { upsert: true });
 
-    if (error) {
-      console.error(error);
-      alert("Upload failed. Check console.");
+    if (uploadError) {
+      alert("Error updating profile photo");
       return;
     }
 
-    // Get public URL
-    const { data: publicData } = supabase.storage ``
-      .from("contractor")
-      .getPublicUrl(filePath);
+    const { data: publicUrl } = supabase.storage.from("contractor").getPublicUrl(filePath);
 
-    setPhotos((prev) => [...prev, publicData.publicUrl]); // update UI immediately
-    alert("Photo uploaded successfully!");
+    if (!publicUrl?.publicUrl) return;
+
+    const { error: dbError } = await supabase
+      .from("contractors_register")
+      .update({ image_url: publicUrl.publicUrl })
+      .eq("id", Number(id));
+
+    if (dbError) {
+      alert("Failed to update profile photo.");
+      return;
+    }
+
+    setContractor((prev: any) => ({ ...prev, image_url: publicUrl.publicUrl }));
+    alert("Profile photo updated!");
   } finally {
     setUploading(false);
   }
 };
+
 
   // 📌 New insert logic using `contractor_request`
   const handleRequest = async () => {
@@ -172,6 +224,17 @@ export default function ContractorDetail() {
   return (
     <div className="bg-white min-h-screen">
       <Navbar />
+      {/* Image Viewer Modal */}
+      {viewerOpen && (
+        <ImageViewer
+          photos={photos}
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+          onClose={() => setViewerOpen(false)}
+          canDelete={false}
+          onDelete={() => { }}
+        />
+      )}
 
       {/* Banner */}
       <div className="w-full h-72 md:h-96 bg-gray-200 relative overflow-hidden">
@@ -185,10 +248,32 @@ export default function ContractorDetail() {
       {/* Profile Card */}
       <div className="max-w-6xl mx-auto p-6 bg-white shadow-xl rounded-2xl -mt-32 md:-mt-24 relative z-10">
         <div className="flex flex-col md:flex-row gap-6 items-start">
-          <img
-            src={contractor.image_url || "/placeholder-user.jpg"}
-            className="w-40 h-40 rounded-xl object-cover border-4 border-white shadow-lg"
-          />
+          <div className="relative group w-40 h-40">
+  <img
+    src={contractor.image_url || "/placeholder-user.jpg"}
+    className="w-full h-full rounded-xl object-cover border-4 border-white shadow-lg"
+  />
+
+  {canUpload && (
+    <>
+      <label
+        htmlFor="profileImageUpload"
+        className="absolute inset-0 bg-black/50 text-white text-sm flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer rounded-xl transition"
+      >
+        Edit Photo
+      </label>
+
+      <input
+        type="file"
+        id="profileImageUpload"
+        className="hidden"
+        accept="image/*"
+        onChange={handleProfilePhotoUpdate}
+      />
+    </>
+  )}
+</div>
+
 
           <div>
             <h1 className="text-3xl font-bold text-yellow-700">{contractor.name}</h1>
@@ -244,7 +329,17 @@ export default function ContractorDetail() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {photos.map((url, i) => (
-              <motion.img key={i} src={url} className="rounded-lg object-cover h-40 w-full" whileHover={{ scale: 1.05 }} />
+              <motion.img
+                key={i}
+                src={url}
+                className="rounded-lg object-cover h-40 w-full cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                onClick={() => {
+                  setCurrentIndex(i);
+                  setViewerOpen(true);
+                }}
+              />
+
             ))}
           </div>
         )}

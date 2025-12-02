@@ -140,14 +140,15 @@ export default function ArchitectDetail() {
       }
 
       // Generate fresh, non-cached URLs
-      const urls = data.map((file) => {
-        const { data: publicUrl } = supabase.storage
-          .from("Architects")
-          .getPublicUrl(`${folderName}/${file.name}`);
+      const urls = data
+  .filter((file) => !file.name.startsWith("profile_")) // 🚫 Exclude profile images
+  .map((file) => {
+    const { data: publicUrl } = supabase.storage
+      .from("Architects")
+      .getPublicUrl(`${folderName}/${file.name}`);
 
-        // prevent browser and CDN caching old files
-        return `${publicUrl.publicUrl}?v=${Date.now()}`;
-      });
+    return `${publicUrl.publicUrl}?v=${Date.now()}`;
+  });
 
       setPhotos(urls);
     } catch (err) {
