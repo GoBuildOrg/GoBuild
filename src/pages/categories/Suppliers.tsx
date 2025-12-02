@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2, CheckCircle2, Smile } from "lucide-react";
-
+import SupplierProducts from "@/components/SupplierProducts";
 const MaterialSupplierPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -373,7 +373,7 @@ const MaterialSupplierPage = () => {
           )}
         </section>
       )}
-
+      <SupplierProducts/>
       {/* Supplier Section */}
       <section className="max-w-6xl mx-auto px-4 md:px-0 mt-16 mb-8 text-center">
         <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
