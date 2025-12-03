@@ -18,6 +18,7 @@ import teamMembers from '@/data/team-members.json';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import GoBuildDownloadApp from '@/components/GoBuildDownloadApp';
 
 const AboutUs: React.FC = () => {
   const { t } = useTranslation();
@@ -166,6 +167,7 @@ const AboutUs: React.FC = () => {
           </div>
         </div>
       </section> */}
+      <GoBuildDownloadApp/>
 
       {/* Stats Section */}
       <section className="py-16 bg-primary text-primary-foreground">
