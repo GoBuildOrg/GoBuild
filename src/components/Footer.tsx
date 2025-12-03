@@ -50,6 +50,21 @@ const Footer: React.FC = () => {
                   <Linkedin className="w-5 h-5" />
                 </a>
             </div>
+            {/* Play Store Badge */}
+            <a
+                href="https://play.google.com/store/apps/details?id=com.go_build_app_version"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download GoBuild app on Google Play"
+                className="block mt-10 w-fit transition-transform hover:scale-105"
+              >
+                <img
+                  src="/AppBadge(green).png"
+                  alt="Get it on Google Play"
+                  className="w-44 rounded-xl shadow-lg"
+                />
+            </a>
+
           </div>
 
           <div>

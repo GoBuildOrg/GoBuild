@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslation } from 'react-i18next';
+import GoBuildDownloadApp from '@/components/GoBuildDownloadApp';
+
 
 const ContactUs: React.FC = () => {
   const { toast } = useToast();
@@ -136,6 +138,7 @@ const ContactUs: React.FC = () => {
           </div>
         </div>
       </section>
+       <GoBuildDownloadApp/>
       
       <div className="mt-auto">
         <Footer />
