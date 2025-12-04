@@ -71,7 +71,7 @@ export default function GoBuildDownloadApp() {
         </motion.div>
 
         {/* RIGHT — Text & CTA */}
-        <div className="flex-1 flex flex-col justify-">
+        <div className="flex-1 flex flex-col justify-center">
 
           <h1 className="text-4xl font-extrabold text-gray-900 leading-snug text-center">
   Download the <span className="text-blue-600">GoBuild App</span>
