@@ -34,10 +34,10 @@ export default function GoBuildDownloadApp() {
               rel="noopener noreferrer"
               className="absolute"
               style={{
-                top: "330px",
-                left: "65px",
-                width: "190px",
-                height: "55px",
+                top: "50.8%",
+                left: "20.3%",
+                width: "59.4%",
+                height: "8.5%",
               }}
             ></a>
           </motion.div>
