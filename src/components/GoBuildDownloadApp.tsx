@@ -22,7 +22,7 @@ export default function GoBuildDownloadApp() {
             className="relative w-[320px] h-[650px]"
           >
             <img
-              src="/AppView..png"
+              src="/AppView.png"
               alt="GoBuild App Screenshot"
               className="w-full h-full object-contain drop-shadow-2xl"
             />
@@ -121,16 +121,9 @@ export default function GoBuildDownloadApp() {
       className="w-40 rounded-xl shadow-lg"
     />
   </motion.a>
-
-</div>
-
-
-
-          
+</div>    
         </div>
         </div>
-
-     
     </section>
   );
 }
