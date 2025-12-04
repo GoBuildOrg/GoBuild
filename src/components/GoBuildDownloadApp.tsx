@@ -39,6 +39,7 @@ export default function GoBuildDownloadApp() {
                 width: "59.4%",
                 height: "8.5%",
               }}
+              aria-label="Download GoBuild app from Google Play Store"
             ></a>
           </motion.div>
 
