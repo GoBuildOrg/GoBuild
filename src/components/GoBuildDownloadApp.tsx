@@ -43,19 +43,19 @@ export default function GoBuildDownloadApp() {
           </motion.div>
 
         {/* Floating Card 1 — SMALLER */}
-<motion.div
-  initial={{ opacity: 0, x: -40 }}
-  animate={{ opacity: 1, x: 0 }}
-  transition={{ delay: 0.4, duration: 0.8 }}
-  className="absolute top-28 -right-20 bg-white shadow-lg p-3 rounded-xl w-48 border border-gray-100"
->
-  <p className="font-semibold text-gray-900 text-xs">Upcoming Service</p>
-  <p className="text-[10px] text-gray-600 mt-1">Electrician arriving in 20 mins</p>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="absolute top-28 -right-20 bg-white shadow-lg p-3 rounded-xl w-48 border border-gray-100"
+          >
+            <p className="font-semibold text-gray-900 text-xs">Upcoming Service</p>
+            <p className="text-[10px] text-gray-600 mt-1">Electrician arriving in 20 mins</p>
 
-  <div className="w-full bg-blue-100 h-1.5 mt-2 rounded-full overflow-hidden">
-    <div className="bg-blue-600 h-full w-2/3"></div>
-  </div>
-</motion.div>
+            <div className="w-full bg-blue-100 h-1.5 mt-2 rounded-full overflow-hidden">
+              <div className="bg-blue-600 h-full w-2/3"></div>
+            </div>
+          </motion.div>
 
 
           {/* Floating Card 2 */}
