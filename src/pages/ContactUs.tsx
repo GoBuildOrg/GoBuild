@@ -138,7 +138,7 @@ const ContactUs: React.FC = () => {
           </div>
         </div>
       </section>
-       <GoBuildDownloadApp/>
+       <GoBuildDownloadApp />
       
       <div className="mt-auto">
         <Footer />
