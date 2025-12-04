@@ -106,7 +106,7 @@ export default function GoBuildDownloadApp() {
   <motion.img
     whileHover={{ scale: 1.05 }}
     src="/AppScanner.jpg"
-    alt="QR Code for GoBuild App"
+    alt="Scan to download GoBuild App from Google Play Store"
     className="w-28 h-28 shadow-lg rounded-xl border border-gray-200"
   />
 
