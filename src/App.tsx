@@ -40,7 +40,7 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import Pricing from "@/pages/Pricing";
 import UpdatePassword from "./pages/auth/UpdatePassword.tsx";
-
+import MaterialDetails from "./pages/categories/MaterialDetails.tsx";
 
 
 // Import i18n configuration
@@ -78,6 +78,8 @@ const AppRoutes = () => {
 
 
       </Route>
+
+      <Route path="/materials/:type" element={<MaterialDetails />} />
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
