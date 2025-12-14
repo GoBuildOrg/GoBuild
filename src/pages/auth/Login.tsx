@@ -47,16 +47,19 @@ const Login = () => {
   };
 
   if (user) {
-    const redirect = searchParams.get('redirect');
-    const showForm = searchParams.get('showForm');
+        // 1. Check for the 'redirectTo' parameter from the URL query string
+        const redirectToUrl = searchParams.get('redirect');
         
-    if (redirect) {
-      const redirectUrl = showForm ? `${redirect}?showForm=${showForm}` : redirect;
-      return <Navigate to={redirectUrl} replace />;
+        // 2. If it exists, navigate to the specific path (e.g., /categories/architects)
+        if (redirectToUrl) {
+          console.log("This is the url",redirectToUrl);
+            // Note: navigate will automatically include the hash if it's in the string
+            return <Navigate to={redirectToUrl} replace />;
+        }
+        
+        // 3. Otherwise, fall back to the home page (if no specific redirect was requested)
+        return <Navigate to="/" replace />; 
     }
-    
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <>
