@@ -11,9 +11,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 const registerSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters" }),
+  phone: z
+    .number()
+    .int()
+    .refine(val => val.toString().length === 10, {
+      message: "Phone number must be exactly 10 digits",
+    }),
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
 });
+
+
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -24,16 +32,17 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       fullName: '',
+      phone: undefined,
       email: '',
       password: '',
     },
   });
-  
+
   const { isSubmitting } = form.formState;
 
   const onSubmit = async (data: RegisterFormValues) => {
     try {
-      await signUp(data.email, data.password, data.fullName);
+      await signUp(data.email, data.password, data.fullName, data.phone);
     } catch (error) {
       // Error is handled in the auth context
       console.error(error);
@@ -53,12 +62,12 @@ const Register = () => {
     // Check for redirect parameter
     const redirect = searchParams.get('redirect');
     const showForm = searchParams.get('showForm');
-    
+
     if (redirect) {
       const redirectUrl = showForm ? `${redirect}?showForm=${showForm}` : redirect;
       return <Navigate to={redirectUrl} replace />;
     }
-    
+
     return <Navigate to="/" replace />;
   }
 
@@ -67,7 +76,7 @@ const Register = () => {
       <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-foreground">
         Create an account
       </h2>
-      
+
       <div className="mt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -78,17 +87,44 @@ const Register = () => {
                 <FormItem>
                   <FormLabel>Full name</FormLabel>
                   <FormControl>
-                    <Input 
-                      autoComplete="name" 
-                      placeholder="John Doe" 
-                      {...field} 
+                    <Input
+                      autoComplete="name"
+                      placeholder="John Doe"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone number</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      placeholder="9876543210"
+                      value={field.value ?? ''}
+                      onChange={(e) => {
+                        const digits = e.target.value.replace(/\D/g, '');
+                        if (digits.length <= 10) {
+                          field.onChange(digits ? Number(digits) : undefined);
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
+              
             <FormField
               control={form.control}
               name="email"
@@ -96,11 +132,11 @@ const Register = () => {
                 <FormItem>
                   <FormLabel>Email address</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="email" 
-                      autoComplete="email" 
-                      placeholder="you@example.com" 
-                      {...field} 
+                    <Input
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -115,11 +151,11 @@ const Register = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="password" 
-                      autoComplete="new-password" 
-                      placeholder="••••••••" 
-                      {...field} 
+                    <Input
+                      type="password"
+                      autoComplete="new-password"
+                      placeholder="••••••••"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -128,9 +164,9 @@ const Register = () => {
             />
 
             <div>
-              <Button 
-                type="submit" 
-                className="w-full" 
+              <Button
+                type="submit"
+                className="w-full"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Creating account..." : "Sign up"}
@@ -151,9 +187,9 @@ const Register = () => {
           </Button>
         </div>
 
-          <p className="mt-4 text-center text-sm text-muted-foreground">
+        <p className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{' '}
-          <Link 
+          <Link
             to={`/auth/login${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
             className="font-medium text-primary hover:text-accent"
           >
