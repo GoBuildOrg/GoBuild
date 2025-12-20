@@ -19,7 +19,7 @@ const HeroForm: React.FC = () => {
     const [showSuggestions, setShowSuggestions] = useState(false); 
     const [phoneNumber, setPhoneNumber] = useState<string>('');
     const [serviceType, setServiceType] = useState<string>('');
-    const [referralCode, setReferralCode] = useState<string>('');
+    const [referralCode, setReferralCode] = useState<Number>(null);
     const [hdfu, setHdfu] = useState<string>('');
     const [mapCenter, setMapCenter] = useState({ lat: 32.7266, lng: 74.8570 });
     const [showSuccessDialog, setShowSuccessDialog] = useState(false);
@@ -64,7 +64,7 @@ const HeroForm: React.FC = () => {
         setLocation(parsed.location || "");
         setPhoneNumber(parsed.phoneNumber || "");
         setServiceType(parsed.serviceType || "");
-        setReferralCode(parsed.referralCode || "");
+        setReferralCode(parsed.referralCode || null);
         setHdfu(parsed.hdfu || "");
         setMapCenter(parsed.mapCenter || { lat: 32.7266, lng: 74.8570 });
     }
@@ -179,36 +179,63 @@ const HeroForm: React.FC = () => {
     window.location.href = `/auth/login?redirect=${loc}`;
     return;
 }
-
-        // ------------------------------------
-
         // Prevent multiple submissions
         if (isSubmitting) return;
 
         setIsSubmitting(true);
 
         try {
+            let submitName = 'User';
+            let profileId = user?.id || null;
+
+            if (user?.id) {
+                try {
+                    const { data: profileData, error: profileError } = await supabase
+                        .from('profiles')
+                        .select('full_name,id')
+                        .eq('id', user.id)
+                        .single();
+
+                    if (!profileError && profileData) {
+                        submitName = (profileData as any).full_name || submitName;
+                        profileId = (profileData as any).id || profileId;
+                    }
+                } catch (err) {
+                    console.warn('Could not fetch profile for submit:', err);
+                }
+            }
+
+            console.log("Name is :", submitName);
+            console.log("id",profileId);
+
             const { error } = await supabase
                 .from('User Request')
                 .insert({
-                    Name: 'User', 
+                    Name: submitName,
+                    user_id: profileId,
                     DateOfService: format(startDate, 'yyyy-MM-dd'),
                     Location: location,
                     Phone: phoneNumber,
                     ServiceType: serviceType,
                     hdfu: hdfu,
-                    ReferalCode: referralCode?.trim() || null,
+                    ReferalCode: referralCode || null,
                 });
 
             if (error) {
                 toast({ title: 'Error', description: error.message, variant: 'destructive' });
             } else {
                 localStorage.removeItem(HERO_FORM_STORAGE_KEY);
+                setStartDate(undefined);
+                setLocation("");
+                setPhoneNumber("");
+                setServiceType("");
+                setReferralCode(null);
+                setHdfu("");
+                setMapCenter({ lat: 32.7266, lng: 74.8570 });
                 setShowSuccessDialog(true);
             }
-            
         } catch (error: any) {
-             toast({ title: 'Error', description: error.message, variant: 'destructive' });
+            toast({ title: 'Error', description: error.message || 'Submission failed', variant: 'destructive' });
         } finally {
             setIsSubmitting(false);
         }
