@@ -63,8 +63,18 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <NavLink to="/" className="flex items-center">
-              <span className="text-2xl font-bold text-primary">Go<span className="text-accent">Build</span></span>
+            <NavLink to="/" className="flex items-center gap-2">
+              {/* Logo */}
+              <img
+                src="/Logo.png"
+                alt="GoBuild Logo"
+                className="h-8 w-8 object-contain"
+              />
+
+              {/* Text */}
+              <span className="text-2xl font-bold text-primary">
+                Go<span className="text-accent">Build</span>
+              </span>
             </NavLink>
           </div>
 
