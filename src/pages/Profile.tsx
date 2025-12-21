@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
-import ReviewForm from '@/components/ReviewForm'; // ✅ Imported ReviewForm
+import ReviewForm from '@/components/ReviewForm';
+import { supabase } from '@/integrations/supabase/client';
 
 const accentColor = 'text-blue-600';
 
 const Profile: React.FC = () => {
     
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [tab, setTab] = useState<'active' | 'history'>('active');
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [popupAnimatingOut, setPopupAnimatingOut] = useState(false);
@@ -16,14 +18,57 @@ const Profile: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [deleting, setDeleting] = useState(false);
-
   const [showReviewPopup, setShowReviewPopup] = useState(false);
 
-  const navigate = useNavigate();
+  // ✅ REAL DATA STATES
+  const [activeRequests, setActiveRequests] = useState<any[]>([]);
+  const [serviceHistory, setServiceHistory] = useState<any[]>([]);
+  const [loadingRequests, setLoadingRequests] = useState(true);
 
-  const activeRequests = [{name:"Mason",status:"Doing",id:1234},{name:"Plumber",status:"Doing",id:1234}]; //is format me data dalna hai 
-  const serviceHistory = [{name:"Mason",status:"Done",id:1234}]; //is format me data dalna hai 
-  const displayName = user?.user_metadata?.full_name || user?.email || 'User';
+  const displayName =
+    user?.user_metadata?.full_name || user?.email || 'User';
+
+  // 🔒 Redirect if not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth/login');
+    }
+  }, [user, navigate]);
+
+  // 📥 FETCH USER REQUESTS
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchRequests = async () => {
+      setLoadingRequests(true);
+
+      const { data, error } = await supabase
+        .from('User Request')
+        .select('id, ServiceType, Results')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching requests:', error);
+        setLoadingRequests(false);
+        return;
+      }
+
+      setActiveRequests(
+        data.filter(
+          (req) => req.Results === false || req.Results === null
+        )
+      );
+
+      setServiceHistory(
+        data.filter((req) => req.Results === true)
+      );
+
+      setLoadingRequests(false);
+    };
+
+    fetchRequests();
+  }, [user]);
 
   const openDeletePopup = () => {
     setDeleteReason('');
@@ -96,45 +141,50 @@ const Profile: React.FC = () => {
           <button
             className={`flex-1 py-4 transition duration-200 ${tab === 'active' ? `bg-white ${accentColor} border-b-6 border-blue-600 shadow-inner` : 'text-gray-400 hover:text-blue-600'}`}
             onClick={() => setTab('active')}
-            aria-selected={tab === 'active'}
-            role="tab"
           >
             Active Requests ({activeRequests.length})
           </button>
           <button
-            className={`flex-1 py-4 transition duration-200 ${tab === 'history' ? `bg-white ${accentColor} border-b-6 border-blue-600 shadow-inner` : 'text-gray-400 hover:text-blue-600'}`}
+            className={`flex-1 py-4 ${
+              tab === 'history'
+                ? 'bg-white text-blue-600'
+                : 'text-gray-400'
+            }`}
             onClick={() => setTab('history')}
-            aria-selected={tab === 'history'}
-            role="tab"
           >
             Service History ({serviceHistory.length})
           </button>
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 min-h-[260px]">
-          {tab === 'active' ? (
-            activeRequests.length > 0 ? (
+        <div className="bg-white rounded-xl shadow p-6 min-h-[250px]">
+          {loadingRequests ? (
+            <div className="text-center text-gray-500 text-lg">
+              Loading your requests...
+            </div>
+          ) : tab === 'active' ? (
+            activeRequests.length ? (
               activeRequests.map((req) => (
-                <div key={req.id} className="border-b last:border-none py-4 flex flex-col md:flex-row justify-between md:items-center">
+                <div
+                  key={req.id}
+                  className="border-b py-4 flex justify-between items-center"
+                >
                   <div>
-                    <h3 className="font-semibold text-xl md:text-2xl">{req.name}</h3>
-                    <p className="text-gray-600 mt-2 md:text-lg">
-                      Status: <span className="text-blue-700 font-semibold">{req.status}</span>
+                    <h3 className="text-xl font-semibold">
+                      {req.ServiceType}
+                    </h3>
+                    <p className="text-blue-600 font-medium">
+                      Status: In Progress
                     </p>
                   </div>
-                  <button className="mt-5 md:mt-0 bg-gray-100 hover:bg-gray-200 text-blue-700 font-semibold px-6 py-3 rounded-lg transition text-lg whitespace-nowrap">
-                    Track Progress
-                  </button>
                 </div>
               ))
             ) : (
-              <div className="flex flex-col items-center justify-center h-48 md:h-64 text-center text-blue-100">
-                <div className="text-3xl font-bold mb-2 text-gray-700">No Active Requests</div>
-                <div className="text-gray-500 text-xl">You haven't requested any services yet.</div>
+              <div className="text-center text-gray-500">
+                No Active Requests
               </div>
             )
-          ) : serviceHistory.length > 0 ? (
+          ) : serviceHistory.length ? (
             serviceHistory.map((req) => (
               <div key={req.id} className="border-b last:border-none py-6">
                 <div className="font-semibold text-2xl">{req.name}</div>
@@ -144,9 +194,8 @@ const Profile: React.FC = () => {
               </div>
             ))
           ) : (
-            <div className="flex flex-col items-center justify-center h-48 md:h-64 text-center text-blue-100">
-              <div className="text-3xl font-bold mb-2 text-gray-700">No Service History</div>
-              <div className="text-gray-500 text-xl">You haven't completed any services yet.</div>
+            <div className="text-center text-gray-500">
+              No Service History
             </div>
           )}
         </div>
