@@ -132,43 +132,46 @@ const Contractors: React.FC = () => {
 
   <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
 
-    {/* General Contracting */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-3xl mb-3">🏗️</div>
-      <h3 className="text-lg font-semibold text-gray-800">General Contracting</h3>
-      <p className="text-sm text-gray-500 mt-2">
-        Complete construction projects civil work, structure & site management.
-      </p>
-    </div>
-
-    {/* Design & Build */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-3xl mb-3">🧭</div>
-      <h3 className="text-lg font-semibold text-gray-800">Design & Build</h3>
-      <p className="text-sm text-gray-500 mt-2">
-        End-to-end service: design, engineering, and execution under one contract.
-      </p>
-    </div>
-
-    {/* Renovation & Remodeling */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-3xl mb-3">🔨</div>
-      <h3 className="text-lg font-semibold text-gray-800">Renovation & Remodeling</h3>
-      <p className="text-sm text-gray-500 mt-2">
-        Home/office refurbishments, extensions, interiors and retrofit works.
-      </p>
-    </div>
-
-    {/* Project Management & Consultancy */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-3xl mb-3">📋</div>
-      <h3 className="text-lg font-semibold text-gray-800">Project Mgmt & Consultancy</h3>
-      <p className="text-sm text-gray-500 mt-2">
-        Cost estimation, scheduling, quality control & permit management.
-      </p>
-    </div>
-
+  {/* General Contracting */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🏗️</div>
+    <h3 className="text-lg font-semibold text-gray-800">General Contracting</h3>
+    <p className="hidden sm:block text-sm text-gray-500 mt-2">
+      Construction, structure & site management.
+    </p>
   </div>
+
+  {/* Design & Build */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🧭</div>
+    <h3 className="text-lg font-semibold text-gray-800">Design & Build</h3>
+    <p className="hidden sm:block text-sm text-gray-500 mt-2">
+      Design, engineering & execution.
+    </p>
+  </div>
+
+  {/* Renovation & Remodeling */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🔨</div>
+    <h3 className="text-lg font-semibold text-gray-800">Renovation & Remodeling</h3>
+    <p className="hidden sm:block text-sm text-gray-500 mt-2">
+      Refurbishments, extensions, interiors & retrofit works.
+    </p>
+  </div>
+
+  {/* Project Management & Consultancy */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">📋</div>
+    <h3 className="text-lg font-semibold text-gray-800">
+      Project Management & Consultancy
+    </h3>
+    <p className="hidden sm:block text-sm text-gray-500 mt-2">
+      Estimation, scheduling, quality control & permits.
+    </p>
+  </div>
+
+</div>
+
 </div>
 
 
