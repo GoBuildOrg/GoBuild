@@ -64,69 +64,83 @@ const Workers: React.FC = () => {
     Popular Worker Categories
   </h2>
 
-  <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
+<div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
 
-    {/* Plumber */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-orange-500 text-4xl mb-3">🔧</div>
-      <h3 className="text-lg font-semibold text-gray-800">Plumber</h3>
-    </div>
-
-    {/* Carpenter */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-blue-500 text-4xl mb-3">🪚</div>
-      <h3 className="text-lg font-semibold text-gray-800">Carpenter</h3>
-    </div>
-
-    {/* Mason */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-green-500 text-4xl mb-3">⚒️</div>
-      <h3 className="text-lg font-semibold text-gray-800">Mason</h3>
-    </div>
-
-    {/* Electrician */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-purple-500 text-4xl mb-3">💡</div>
-      <h3 className="text-lg font-semibold text-gray-800">Electrician</h3>
-    </div>
-
-    {/* Painter */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-red-500 text-4xl mb-3">🎨</div>
-      <h3 className="text-lg font-semibold text-gray-800">Painter</h3>
-    </div>
-
-    {/* Tiles & Floor Work */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-indigo-500 text-4xl mb-3">🧱</div>
-      <h3 className="text-lg font-semibold text-gray-800">Tiles & Floor Work</h3>
-    </div>
-
-    {/* Steel Cutter */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-gray-800 text-4xl mb-3">🔩</div>
-      <h3 className="text-lg font-semibold text-gray-800">Steel Cutter</h3>
-    </div>
-
-    {/* Labour */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-yellow-500 text-4xl mb-3">👷</div>
-      <h3 className="text-lg font-semibold text-gray-800">Labour</h3>
-    </div>
-
-    {/* Welder */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-teal-600 text-4xl mb-3">🔥</div>
-      <h3 className="text-lg font-semibold text-gray-800">Welder</h3>
-    </div>
-
-    {/* Steel Fixer */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-amber-700 text-4xl mb-3">🛠️</div>
-      <h3 className="text-lg font-semibold text-gray-800">Steel Fixer</h3>
-    </div>
-
+  {/* Plumbing Services */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🔧</div>
+    <h3 className="text-lg font-semibold text-gray-800">Plumbing Services</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Installation, repair & water system maintenance.
+    </p>
   </div>
+
+  {/* Electrical Works */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">💡</div>
+    <h3 className="text-lg font-semibold text-gray-800">Electrical Works</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Wiring, lighting, fittings & safety solutions.
+    </p>
+  </div>
+
+  {/* Carpentry & Woodwork */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🪚</div>
+    <h3 className="text-lg font-semibold text-gray-800">Carpentry & Woodwork</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Doors, furniture & custom wood fittings.
+    </p>
+  </div>
+
+  {/* Masonry & Civil Work */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🧱</div>
+    <h3 className="text-lg font-semibold text-gray-800">Masonry & Civil Work</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Brickwork, plaster, concrete & structure.
+    </p>
+  </div>
+
+  {/* Painting & Finishing */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🎨</div>
+    <h3 className="text-lg font-semibold text-gray-800">Painting & Finishing</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Interior & exterior premium finishes.
+    </p>
+  </div>
+
+  {/* Flooring & Tiling */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🧩</div>
+    <h3 className="text-lg font-semibold text-gray-800">Flooring & Tiling</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Tiles, marble, granite & installations.
+    </p>
+  </div>
+
+  {/* Welding & Fabrication */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🔥</div>
+    <h3 className="text-lg font-semibold text-gray-800">Welding & Fabrication</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Steel fabrication, welding & metal works.
+    </p>
+  </div>
+
+  {/* Skilled Manpower */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">👷</div>
+    <h3 className="text-lg font-semibold text-gray-800">Skilled Manpower</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Labour, technicians & on-site support.
+    </p>
+  </div>
+
+</div>
+
+
 </div>
 
       {/* FORM SECTION */}
