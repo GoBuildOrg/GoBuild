@@ -235,69 +235,85 @@ const MaterialSupplierPage = () => {
     Popular Material Categories
   </h2>
 
-  <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
+<div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center">
 
-    {/* Cement */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-gray-500 text-4xl mb-3">🏗️</div>
-      <h3 className="text-lg font-semibold text-gray-800">Cement</h3>
-    </div>
-
-    {/* Steel & Iron */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-gray-800 text-4xl mb-3">⛓️</div>
-      <h3 className="text-lg font-semibold text-gray-800">Steel & Iron</h3>
-    </div>
-
-    {/* Bricks */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-red-600 text-4xl mb-3">🧱</div>
-      <h3 className="text-lg font-semibold text-gray-800">Bricks</h3>
-    </div>
-
-    {/* Sand & Aggregates */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-yellow-600 text-4xl mb-3">🏜️</div>
-      <h3 className="text-lg font-semibold text-gray-800">Sand & Bajri</h3>
-    </div>
-
-    {/* Wood & Timber */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-amber-800 text-4xl mb-3">🪵</div>
-      <h3 className="text-lg font-semibold text-gray-800">Wood & Timber</h3>
-    </div>
-
-    {/* Tiles & Marbles */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-indigo-500 text-4xl mb-3">⬜</div>
-      <h3 className="text-lg font-semibold text-gray-800">Tiles & Marble</h3>
-    </div>
-
-    {/* Paints */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-pink-500 text-4xl mb-3">🎨</div>
-      <h3 className="text-lg font-semibold text-gray-800">Paints</h3>
-    </div>
-
-    {/* Electrical */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-yellow-400 text-4xl mb-3">💡</div>
-      <h3 className="text-lg font-semibold text-gray-800">Electrical</h3>
-    </div>
-
-    {/* Plumbing */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-blue-500 text-4xl mb-3">🚰</div>
-      <h3 className="text-lg font-semibold text-gray-800">Plumbing</h3>
-    </div>
-
-    {/* Glass & Hardware */}
-    <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
-      <div className="text-cyan-600 text-4xl mb-3">🪟</div>
-      <h3 className="text-lg font-semibold text-gray-800">Glass & Hardware</h3>
-    </div>
-
+  {/* Cement & Concrete */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🏗️</div>
+    <h3 className="text-lg font-semibold text-gray-800">Cement & Concrete</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Cement, RMC & premium materials.
+    </p>
   </div>
+
+  {/* Steel & Iron */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">⛓️</div>
+    <h3 className="text-lg font-semibold text-gray-800">Steel & Iron</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      TMT bars, rods & reinforcement.
+    </p>
+  </div>
+
+  {/* Bricks & Blocks */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🧱</div>
+    <h3 className="text-lg font-semibold text-gray-800">Bricks & Blocks</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Red bricks, fly ash & AAC.
+    </p>
+  </div>
+
+  {/* Sand & Aggregates */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🏜️</div>
+    <h3 className="text-lg font-semibold text-gray-800">Sand & Aggregates</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      River sand, M-sand, aggregates.
+    </p>
+  </div>
+
+  {/* Wood & Timber */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🪵</div>
+    <h3 className="text-lg font-semibold text-gray-800">Wood & Timber</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Plywood, hardwood & timber.
+    </p>
+  </div>
+
+  {/* Tiles & Marble */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">⬜</div>
+    <h3 className="text-lg font-semibold text-gray-800">Tiles & Marble</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Tiles, marble, granite & stone.
+    </p>
+  </div>
+
+  {/* Paints & Coatings */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🎨</div>
+    <h3 className="text-lg font-semibold text-gray-800">Paints & Coatings</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Interior, exterior, waterproof paints.
+    </p>
+  </div>
+
+  {/* Electrical & Plumbing */}
+  <div className="cursor-pointer p-6 rounded-2xl border hover:shadow-xl transition bg-gray-50">
+    <div className="text-3xl mb-3">🛠️</div>
+    <h3 className="text-lg font-semibold text-gray-800">Electrical & Plumbing</h3>
+    <p className="text-sm text-gray-500 mt-2 hidden sm:block">
+      Wires, pipes, fittings & hardware.
+    </p>
+  </div>
+
+</div>
+
+
+
+
 </div>
 
       {/* Registration Form */}
