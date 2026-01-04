@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Textarea } from "@/components/ui/textarea";
+import { MapPin } from "lucide-react";
+
+
 
 const formSchema = z.object({
   Name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -24,7 +27,9 @@ type FormValues = z.infer<typeof formSchema>;
 
 export function ApplyAsProfessionalForm() {
   const { toast } = useToast();
-  
+  const [baseLat, setBaseLat] = React.useState<number | null>(null);
+  const [baseLng, setBaseLng] = React.useState<number | null>(null);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,11 +39,22 @@ export function ApplyAsProfessionalForm() {
       MobileNo: undefined,
       Area: "",
       Skill: "",
-      Description:"",
+      Description: "",
     },
   });
 
   const onSubmit = async (data: FormValues) => {
+
+    if (!baseLat || !baseLng) {
+      toast({
+        title: "Location required",
+        description: "Please click 'Use Current Location'",
+        variant: "destructive",
+      });
+      return;
+    }
+
+
     try {
       // Make sure MobileNo is present before submitting
       if (!data.MobileNo) {
@@ -52,10 +68,12 @@ export function ApplyAsProfessionalForm() {
 
       // Insert a single object, not an array
       const { error } = await supabase
-        .from('GoBuild')
-        .insert(data);
-
-      if (error) throw error;
+        .from("GoBuild")
+        .insert({
+          ...data,
+          base_lat: baseLat,
+          base_lng: baseLng,
+        });
 
       toast({
         title: "Application Submitted",
@@ -71,6 +89,33 @@ export function ApplyAsProfessionalForm() {
       });
     }
   };
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      toast({
+        title: "Error",
+        description: "Geolocation not supported",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setBaseLat(pos.coords.latitude);
+        setBaseLng(pos.coords.longitude);
+      },
+      (err) => {
+        toast({
+          title: "Error",
+          description: err.message,
+          variant: "destructive",
+        });
+      },
+      { enableHighAccuracy: true }
+    );
+  };
+
 
   return (
     <Form {...form}>
@@ -97,10 +142,10 @@ export function ApplyAsProfessionalForm() {
               <FormItem>
                 <FormLabel>Age</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="number" 
-                    placeholder="25" 
-                    {...field} 
+                  <Input
+                    type="number"
+                    placeholder="25"
+                    {...field}
                     onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -116,9 +161,9 @@ export function ApplyAsProfessionalForm() {
               <FormItem>
                 <FormLabel>Years of Experience</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="number" 
-                    placeholder="5" 
+                  <Input
+                    type="number"
+                    placeholder="5"
                     {...field}
                     onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                   />
@@ -136,9 +181,9 @@ export function ApplyAsProfessionalForm() {
             <FormItem>
               <FormLabel>Mobile Number</FormLabel>
               <FormControl>
-                <Input 
-                  type="number" 
-                  placeholder="1234567890" 
+                <Input
+                  type="number"
+                  placeholder="1234567890"
                   {...field}
                   onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                   required
@@ -149,19 +194,65 @@ export function ApplyAsProfessionalForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="Area"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Area/Location</FormLabel>
-              <FormControl>
-                <Input placeholder="City, State" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/* Location */}
+{/* Area / Location */}
+{/* Area / Location */}
+<div className="space-y-2">
+  <label className="text-sm font-medium text-black">
+    Area / Location
+  </label>
+
+  <div className="flex items-center gap-3">
+    {/* ✅ Blinking Pin */}
+    <span
+      className="relative flex items-center justify-center w-10 h-10 rounded-full 
+      bg-gradient-to-tr from-emerald-400 to-sky-500 shadow-md"
+    >
+      <MapPin className="w-4 h-4 text-white z-10" />
+      <span
+        className="absolute inline-flex w-10 h-10 rounded-full 
+        bg-emerald-300 opacity-30 animate-ping"
+      />
+    </span>
+
+    {/* Current Location Button */}
+    <Button
+      type="button"
+      onClick={handleUseCurrentLocation}
+      variant="outline"
+      className="h-10 px-4 rounded-lg text-sm"
+    >
+      Current location
+    </Button>
+
+    {/* Enter Location Input */}
+    <FormField
+      control={form.control}
+      name="Area"
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          <FormControl>
+            <Input
+              placeholder="Enter location"
+              className="h-10 rounded-lg"
+              {...field}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  </div>
+
+  {baseLat && baseLng && (
+    <p className="text-xs text-green-600">
+      Location saved ✔
+    </p>
+  )}
+</div>
+
+
+
 
         <FormField
           control={form.control}
@@ -194,5 +285,8 @@ export function ApplyAsProfessionalForm() {
         <Button type="submit" className="w-full animate-pulse-shadow">Submit</Button>
       </form>
     </Form>
+
+
+
   );
 }
