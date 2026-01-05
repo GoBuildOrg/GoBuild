@@ -28,28 +28,7 @@ const ServicesPage = () => {
       <main className="flex-grow pt-20">
         <HeroForm />
 
-        <section className="py-16 bg-background">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-center">{t('services.applyAsProfessional')}</h2>
-            <p className="text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
-              {t('services.joinNetwork')}
-            </p>
-
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              {/* Form - Left */}
-              <div className="w-full md:w-1/2">
-                <div className="p-8 bg-sky-100 rounded-xl shadow-2xl">
-                  <ApplyAsProfessionalForm />
-                </div>
-              </div>
-
-              {/* Image - Right */}
-              <div className="w-full md:w-1/2 ">
-                <img src="./pp6.jpg" alt="Professional illustration" className="w-full h-[500px] rounded-lg shadow-lg" />
-              </div>
-            </div>
-          </div>
-        </section>
+      
 
         <section className="py-16 bg-background">
           <div className="container mx-auto px-4">
