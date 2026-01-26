@@ -379,6 +379,7 @@ const HeroForm: React.FC = () => {
                                         <SelectItem value="tiles">Tiles and Floor Work</SelectItem>
                                         <SelectItem value="plumber">Plumber</SelectItem>
                                         <SelectItem value="electrician">Electrician</SelectItem>
+                                        <SelectItem value="washroom-cleaning">Washroom Cleaning</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
