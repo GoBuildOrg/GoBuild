@@ -245,7 +245,7 @@ const HeroForm: React.FC = () => {
         //The element that needs scrolling MUST have this ID 
         <section id="hero-form" className="hero-pattern from-primary/5 to-background py-16">
             <div className="container mx-auto px-4">
-                <h1 className="text-4xl font-bold mb-8 text-center">Find Professional Services</h1>
+                {/* <h1 className="text-4xl font-bold mb-8 text-center">Find Professional Services</h1> */}
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                     {/* FORM */}
@@ -412,7 +412,7 @@ const HeroForm: React.FC = () => {
                     </div>
 
                     {/* MAP */}
-                    <div className="bg-white rounded-2xl shadow-2xl overflow-hidden h-[625px]">
+                    <div className="hidden lg:block bg-white rounded-2xl shadow-2xl overflow-hidden h-[625px]">
                         <UserLocationMap center={mapCenter} />
                     </div>
                 </div>

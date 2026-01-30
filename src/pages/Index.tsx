@@ -53,10 +53,10 @@ const Index: React.FC = () => {
       <Navbar />
       <SEO title="Hire Verified Construction Labour Near You" description="Find and hire verified masons, carpenters, electricians and helpers in Jammu and Delhi. Trusted professionals for construction and repair work." keywords="hire construction workers, masons near me, carpenters near me, GoBuild" url="https://www.gobuild.in/" />
       <Hero />
+      <HeroForm />
       {/* <Banner/> */}
       <Bmodel />
       <OfferRibbon />
-      <HeroForm />
       <Solutions />
       <WorkerCategories />
       {/* <ServiceCategories /> */}
